@@ -1,0 +1,10 @@
+<svg width="640" height="760" viewBox="0 0 640 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="760" rx="24" fill="#111319"/>
+  <rect x="28" y="28" width="584" height="704" rx="18" fill="#181B22" stroke="#2B303B" stroke-width="2"/>
+  <circle cx="320" cy="262" r="112" fill="#252A35"/>
+  <path d="M160 584C178 492 238 430 320 430C402 430 462 492 480 584" stroke="#27E0A3" stroke-width="28" stroke-linecap="round"/>
+  <path d="M230 626H410" stroke="#FF4D6D" stroke-width="18" stroke-linecap="round"/>
+  <path d="M260 665H380" stroke="#F0B84C" stroke-width="14" stroke-linecap="round"/>
+  <text x="320" y="286" text-anchor="middle" fill="#F6F8FB" font-family="Arial, sans-serif" font-size="84" font-weight="700">MR</text>
+  <text x="320" y="704" text-anchor="middle" fill="#8C94A6" font-family="Arial, sans-serif" font-size="22">PROFILE PHOTO</text>
+</svg>

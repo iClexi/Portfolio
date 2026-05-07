@@ -1,0 +1,518 @@
+:root {
+  --bg: #0b0d12;
+  --panel: #151820;
+  --panel-2: #1d212b;
+  --text: #f6f8fb;
+  --muted: #aeb6c7;
+  --line: #303644;
+  --green: #27e0a3;
+  --red: #ff4d6d;
+  --amber: #f0b84c;
+  --cyan: #52c7ea;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+main {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(39, 224, 163, 0.08), transparent 360px),
+    radial-gradient(circle at 78% 12%, rgba(255, 77, 109, 0.16), transparent 280px),
+    var(--bg);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  min-height: 72px;
+  padding: 0 6vw;
+  background: rgba(11, 13, 18, 0.86);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+
+.brand,
+.language-toggle,
+.primary-link,
+.secondary-link,
+.identity-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.brand {
+  font-weight: 800;
+  color: var(--green);
+}
+
+.navlinks {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.navlinks a {
+  padding: 10px 0;
+}
+
+.navlinks a:hover {
+  color: var(--text);
+}
+
+.language-toggle {
+  height: 42px;
+  padding: 0 14px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.section-band {
+  width: 100%;
+  padding: 92px 6vw;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 420px);
+  align-items: center;
+  gap: 64px;
+  min-height: calc(100vh - 72px);
+  padding-top: 64px;
+  padding-bottom: 72px;
+}
+
+.hero-copy {
+  max-width: 920px;
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  margin-bottom: 14px;
+  font-size: clamp(42px, 7vw, 86px);
+  line-height: 1;
+}
+
+.subtitle {
+  max-width: 900px;
+  margin-bottom: 26px;
+  color: var(--cyan);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.hero h2,
+.section-heading h2,
+.minecraft h2,
+.footer h2 {
+  margin-bottom: 18px;
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.08;
+}
+
+.intro,
+.about p,
+.minecraft p,
+.footer p {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.hero-actions,
+.footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.primary-link,
+.secondary-link {
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.primary-link {
+  color: #06110d;
+  background: var(--green);
+}
+
+.secondary-link,
+.identity-chip {
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.profile-panel {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  min-width: 0;
+}
+
+.profile-panel img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.profile-panel p {
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.quick-links,
+.projects,
+.studies {
+  background: #101219;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.section-heading {
+  max-width: 880px;
+  margin-bottom: 34px;
+}
+
+.link-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.site-tile {
+  display: grid;
+  gap: 28px;
+  min-height: 150px;
+  padding: 22px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.site-tile span {
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.site-tile strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.skill-grid,
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.skill-card,
+.project-card {
+  min-height: 100%;
+  padding: 22px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.card-title svg,
+.project-card svg {
+  color: var(--red);
+  flex: 0 0 auto;
+}
+
+.skill-card h3,
+.project-card h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.skill-card ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.project-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.project-card:hover,
+.site-tile:hover {
+  border-color: var(--green);
+  transform: translateY(-3px);
+}
+
+.project-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.tool-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tool-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  color: var(--text);
+  background: #171a22;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.tool-pill:nth-child(3n) {
+  color: var(--green);
+}
+
+.tool-pill:nth-child(4n) {
+  color: var(--amber);
+}
+
+.minecraft-copy {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 22px;
+  max-width: 980px;
+  padding: 28px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.minecraft-copy > svg {
+  color: var(--amber);
+}
+
+.study-list {
+  display: grid;
+  gap: 12px;
+  max-width: 980px;
+}
+
+.study-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.study-row svg {
+  color: var(--cyan);
+  flex: 0 0 auto;
+}
+
+.footer {
+  padding-bottom: 56px;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 28px;
+}
+
+.identity-chip {
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 8px;
+}
+
+.animated-entry {
+  opacity: 1;
+}
+
+@media (max-width: 1040px) {
+  .navlinks {
+    display: none;
+  }
+
+  .hero,
+  .about-grid,
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-panel {
+    max-width: 380px;
+  }
+
+  .skill-grid,
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    gap: 12px;
+    padding: 0 18px;
+  }
+
+  .section-band {
+    padding: 62px 18px;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: auto;
+    padding-top: 48px;
+    overflow: hidden;
+  }
+
+  .hero-copy,
+  .section-heading,
+  .profile-panel {
+    width: 100%;
+    max-width: 354px;
+  }
+
+  .hero-copy h1,
+  .hero-copy h2,
+  .hero-copy p,
+  .subtitle {
+    max-width: 354px;
+  }
+
+  h1 {
+    font-size: 40px;
+  }
+
+  .hero h2,
+  .section-heading h2,
+  .minecraft h2,
+  .footer h2 {
+    font-size: 30px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+  }
+
+  .link-grid,
+  .skill-grid,
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions,
+  .footer-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .primary-link,
+  .secondary-link,
+  .identity-chip {
+    width: 100%;
+  }
+
+  .minecraft-copy {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 720px) {
+  .hero-copy,
+  .section-heading,
+  .profile-panel,
+  .hero-copy h1,
+  .hero-copy h2,
+  .hero-copy p,
+  .subtitle {
+    max-width: calc(100vw - 36px);
+  }
+}
