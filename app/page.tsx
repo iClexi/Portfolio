@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import {
+  Boxes,
   Cloud,
   Code2,
   Database,
@@ -10,450 +10,308 @@ import {
   FolderGit2,
   Gamepad2,
   GitBranch,
+  Globe2,
   HardDrive,
   Languages,
   Mail,
   MonitorPlay,
   Network,
+  RadioTower,
   Server,
   ShieldCheck,
   Terminal,
+  Trophy,
   UserRound,
+  X,
 } from 'lucide-react';
+import type { CSSProperties } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
 type Language = 'es' | 'en';
+type ServiceLink = {
+  label: string;
+  href: string;
+  accent: string;
+  icon: typeof Code2;
+  summaryEs: string;
+  summaryEn: string;
+  bulletsEs: string[];
+  bulletsEn: string[];
+};
 
-const links = [
-  { label: 'RitmoHub', href: 'https://ritmohub.iclexi.tech' },
-  { label: 'PPT del Terror', href: 'https://terror.iclexi.tech' },
-  { label: 'CryptoToolbox', href: 'https://cryptotoolbox.iclexi.tech' },
+const socialLinks = [
+  { label: 'GitHub', href: 'https://github.com/iClexi', icon: GitBranch },
+  { label: 'YouTube', href: 'https://www.youtube.com/@iclexi2688/videos', icon: MonitorPlay },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/michael-robles-03798a23a/', icon: Globe2 },
 ];
 
-const tools = [
-  'Linux',
-  'Ubuntu Server',
-  'Debian',
-  'Kali Linux',
-  'Proxmox',
-  'Docker',
-  'Cloudflare Tunnel',
-  'TrueNAS',
-  'Nextcloud',
-  'Wazuh',
-  'OWASP ZAP',
-  'SonarQube',
-  'Nmap',
-  'Burp Suite',
-  'Cisco Packet Tracer',
-  'PostgreSQL',
-  'Next.js',
-  'React',
-  'TypeScript',
-  'GitHub',
+const serviceLinks: ServiceLink[] = [
+  {
+    label: 'RitmoHub',
+    href: 'https://ritmohub.iclexi.tech',
+    accent: '#52c7ea',
+    icon: Code2,
+    summaryEs: 'Red social musical con perfiles, sesiones, eventos, chat, recuperación de cuenta y base de datos PostgreSQL.',
+    summaryEn: 'Music social platform with profiles, sessions, events, chat, account recovery and PostgreSQL.',
+    bulletsEs: ['Next.js, React y TypeScript', 'Autenticación, sesiones y recuperación', 'Despliegue web con túnel y dominio propio'],
+    bulletsEn: ['Next.js, React and TypeScript', 'Authentication, sessions and recovery', 'Web deployment with tunnel and custom domain'],
+  },
+  {
+    label: 'PPT del Terror',
+    href: 'https://terror.iclexi.tech',
+    accent: '#ff4d6d',
+    icon: Gamepad2,
+    summaryEs: 'Juego web con login, registro, ranking semanal/global, PostgreSQL y panel admin para observar tráfico técnico.',
+    summaryEn: 'Web game with login, registration, weekly/global ranking, PostgreSQL and admin traffic visibility.',
+    bulletsEs: ['React + Vite', 'Ranking y puntuaciones persistentes', 'Controles de seguridad y rate limiting'],
+    bulletsEn: ['React + Vite', 'Persistent ranking and scores', 'Security controls and rate limiting'],
+  },
+  {
+    label: 'CryptoToolbox',
+    href: 'https://cryptotoolbox.iclexi.tech',
+    accent: '#27e0a3',
+    icon: ShieldCheck,
+    summaryEs: 'Herramienta para hashes, verificación de checksums, chat, perfiles, reputación, tráfico admin y base de datos.',
+    summaryEn: 'Hashing and checksum verification tool with chat, profiles, reputation, admin traffic and database.',
+    bulletsEs: ['MD5, SHA1 y SHA256', 'Verificación de archivos y actividad global', 'Socket.IO y PostgreSQL'],
+    bulletsEn: ['MD5, SHA1 and SHA256', 'File verification and global activity', 'Socket.IO and PostgreSQL'],
+  },
 ];
 
-const githubMetrics = [
-  { value: '22', labelEs: 'repositorios públicos', labelEn: 'public repositories' },
-  { value: '10', labelEs: 'laboratorios académicos', labelEn: 'academic labs' },
-  { value: '2020', labelEs: 'perfil activo desde', labelEn: 'profile active since' },
+const toolStack = [
+  ['Linux', Terminal],
+  ['Ubuntu Server', Server],
+  ['Debian', Server],
+  ['Kali Linux', ShieldCheck],
+  ['Proxmox', Boxes],
+  ['Docker', Boxes],
+  ['Cloudflare Tunnel', Cloud],
+  ['TrueNAS', HardDrive],
+  ['Nextcloud', Cloud],
+  ['Wazuh', ShieldCheck],
+  ['OWASP ZAP', ShieldCheck],
+  ['SonarQube', Code2],
+  ['Nmap', Network],
+  ['Burp Suite', ShieldCheck],
+  ['Cisco Packet Tracer', Network],
+  ['PostgreSQL', Database],
+  ['Next.js', Code2],
+  ['React', Code2],
+  ['TypeScript', FileCode2],
+  ['GitHub', GitBranch],
+] as const;
+
+const certifications = [
+  { issuer: 'Cisco', name: 'CCNA 1', detail: 'Networking Basics / Switching fundamentals', tone: '#1ba0d7' },
+  { issuer: 'Cisco', name: 'CCNA 2', detail: 'Switching, Routing and Wireless Essentials', tone: '#1ba0d7' },
+  { issuer: 'Cisco', name: 'CCNA 3', detail: 'Enterprise Networking, Security and Automation', tone: '#1ba0d7' },
+  { issuer: 'Cisco', name: 'Ethical Hacker', detail: 'Fundamentos de hacking ético y pruebas de seguridad', tone: '#1ba0d7' },
+  { issuer: 'Huawei', name: 'HCIA Datacom', detail: 'Redes IP, routing, switching y operación Datacom', tone: '#e23d3d' },
+];
+
+const proxmoxServices = [
+  { name: 'pfSense', role: 'Firewall/router del laboratorio', icon: ShieldCheck },
+  { name: 'TrueNAS', role: 'NAS y almacenamiento interno', icon: HardDrive },
+  { name: 'VPN / Tailscale', role: 'Acceso remoto seguro', icon: RadioTower },
+  { name: 'Wazuh', role: 'SIEM y monitoreo de seguridad', icon: ShieldCheck },
+  { name: 'DNS interno', role: 'Resolución local para servicios', icon: Network },
+  { name: 'Proxy interno', role: 'Forwarding y publicación controlada', icon: Globe2 },
+  { name: 'Minecraft', role: 'Servidor Java y Bedrock', icon: Gamepad2 },
+  { name: 'HA Web 201/202', role: 'RitmoHub, CryptoToolbox y PPT', icon: Server },
+  { name: 'Jellyfin', role: 'Servicio multimedia en Docker', icon: MonitorPlay },
+  { name: 'Nextcloud', role: 'Nube privada y archivos', icon: Cloud },
 ];
 
 const githubRepos = [
-  { name: 'Proxmox', stack: 'Shell', href: 'https://github.com/iClexi/Proxmox' },
-  { name: 'Portfolio', stack: 'TypeScript', href: 'https://github.com/iClexi/Portfolio' },
-  { name: 'PPT-Del-terror', stack: 'TypeScript', href: 'https://github.com/iClexi/PPT-Del-terror' },
-  { name: 'cryptotoolbox', stack: 'TypeScript', href: 'https://github.com/iClexi/cryptotoolbox' },
-  { name: 'ritmohub', stack: 'TypeScript', href: 'https://github.com/iClexi/ritmohub' },
-  { name: 'COMANDOS-ESENCIALES', stack: 'Docs', href: 'https://github.com/iClexi/COMANDOS-ESENCIALES' },
+  { name: 'Proxmox', stack: 'Docs / Shell', href: 'https://github.com/iClexi/Proxmox' },
+  { name: 'Portfolio', stack: 'Next.js', href: 'https://github.com/iClexi/Portfolio' },
+  { name: 'PPT-Del-terror', stack: 'React / Express', href: 'https://github.com/iClexi/PPT-Del-terror' },
+  { name: 'cryptotoolbox', stack: 'React / PostgreSQL', href: 'https://github.com/iClexi/cryptotoolbox' },
+  { name: 'ritmohub', stack: 'Next.js / PostgreSQL', href: 'https://github.com/iClexi/ritmohub' },
+  { name: 'Skytech Redes Corporativas', stack: 'Redes / Servidores', href: 'https://github.com/Edgardy715/Skytech-Redes-Corporativas' },
 ];
 
-const youtubeLabs = [
+const projects = [
   {
-    title: 'Escaner con Maltego a la empresa Transunion',
-    detail: 'OSINT y relacionamiento de entidades con Maltego.',
-    href: 'https://www.youtube.com/watch?v=MEwQtN0fzNo',
+    title: 'RitmoHub',
+    detail: 'Aplicación musical con login, sesiones, base de datos, recuperación de contraseña, eventos, comunidad y despliegue real.',
+    icon: Code2,
   },
   {
-    title: 'Practica Autenticacion utilizando Cookies de Session',
-    detail: 'Sesiones web, cookies y flujo de autenticacion.',
-    href: 'https://www.youtube.com/watch?v=zV8fuH7YfnQ',
+    title: 'Homelab Proxmox',
+    detail: 'Entorno de virtualización con VMs para Wazuh, TrueNAS, Nextcloud, DNS, Minecraft, HA web y servicios internos.',
+    icon: Server,
   },
   {
-    title: 'Using Password Tools',
-    detail: 'Herramientas para auditoria y gestion de passwords.',
-    href: 'https://www.youtube.com/watch?v=Iwes_hzdyCE',
+    title: 'Laboratorio SAST/DAST',
+    detail: 'Evaluación de aplicaciones con SonarQube, OWASP ZAP y análisis de vulnerabilidades web en ejecución.',
+    icon: ShieldCheck,
   },
   {
-    title: 'Analyze Automation Code',
-    detail: 'Revision de codigo orientado a automatizacion.',
-    href: 'https://www.youtube.com/watch?v=JFRa6TQrBhg',
+    title: 'Skytech Redes Corporativas',
+    detail: 'Proyecto colaborativo donde trabajé la parte de servidores en Santiago: DNS, FTP, mail, RADIUS, TFTP, VoIP y Ansible. También hice la página web del proyecto.',
+    icon: Network,
+    href: 'https://github.com/Edgardy715/Skytech-Redes-Corporativas/tree/main/configs/Santiago/Servidores',
   },
   {
-    title: 'Analyze Exploit Code',
-    detail: 'Lectura y analisis de codigo exploit en laboratorio.',
-    href: 'https://www.youtube.com/watch?v=HZ7jKXRSc30',
+    title: 'Topología Packet Tracer / PNET',
+    detail: 'Red corporativa con sedes, VLANs, OSPF, DHCP, HSRP, trunks, port security y servicios centralizados.',
+    icon: GitBranch,
   },
   {
-    title: 'OWASP Web Security Testing Guide',
-    detail: 'Practica guiada con metodologia OWASP WSTG.',
-    href: 'https://www.youtube.com/watch?v=xnYwprIS7WA',
-  },
-  {
-    title: 'Cross Site Scripting',
-    detail: 'Laboratorio de XSS y validacion de riesgo web.',
-    href: 'https://www.youtube.com/watch?v=K0j7dVRLf_Q',
-  },
-  {
-    title: 'Injection Attacks',
-    detail: 'Practica de ataques de inyeccion y controles defensivos.',
-    href: 'https://www.youtube.com/watch?v=WTHwB0cD198',
+    title: 'Minecraft Java + Bedrock',
+    detail: 'Servidor dedicado en Linux con acceso externo por mc.iclexi.tech, servicios systemd y red interna/externa.',
+    icon: Gamepad2,
   },
 ];
 
-const content = {
+const youtubeVideos = [
+  ['Seguridad web y API', 'Escaner con Maltego a la empresa Transunion', '33:46', '7 vistas'],
+  ['Seguridad web y API', 'Practica Autenticacion utilizando Cookies de Session', '17:10', '23 vistas'],
+  ['Seguridad web y API', '6.12.13 Lab - Use the OWASI Web Security Testing Guide', '12:32', '6 vistas'],
+  ['Seguridad web y API', '6.7.8 Lab - Cross Site Scripting', '21:57', '8 vistas'],
+  ['Seguridad web y API', '6.4.7 Lab - Injection Attacks', '9:05', '25 vistas'],
+  ['Seguridad web y API', '6.1.7 Lab - Web Vulnerability Scanning', '13:38', '14 vistas'],
+  ['Seguridad web y API', '6.1.8 Lab - Using the GM Vulnerability Scanner', '15:03', '7 vistas'],
+  ['Seguridad web y API', 'API 1 2023 Broken Object Level Authorization', '5:33', '12 vistas'],
+  ['Seguridad web y API', 'API 2 2023 Broken Authentication', '7:35', '13 vistas'],
+  ['Seguridad web y API', 'API 3 2023 Broken Object Property Level Authorization', '5:26', '12 vistas'],
+  ['Seguridad web y API', 'API 4 2023 Unrestricted Resource Consumption', '9:53', '9 vistas'],
+  ['Seguridad web y API', 'API 5 2023 Broken Function Level Authorization', '5:00', '11 vistas'],
+  ['Seguridad web y API', 'API 6 2023 Unrestricted Access to Sensitive Business Flows', '7:09', '3 vistas'],
+  ['Seguridad web y API', 'API 7 2023 Server Side Request Forgery', '5:19', '2 vistas'],
+  ['Seguridad web y API', 'API 8 2023 Security Misconfiguration', '6:12', '5 vistas'],
+  ['Seguridad web y API', 'API 9 2023 Improper Inventory Management', '9:06', '8 vistas'],
+  ['Seguridad web y API', 'API 10 2023 Unsafe Consumption of APIs', '10:03', '9 vistas'],
+  ['Ofensiva y análisis', '6.5.8 Lab - Using Password Tools', '15:56', '21 vistas'],
+  ['Ofensiva y análisis', '10.1.20 Lab - Analyze Automation Code', '29:23', '12 vistas'],
+  ['Ofensiva y análisis', '10.1.19 Lab - Analyze Exploit Code', '8:24', '19 vistas'],
+  ['Ofensiva y análisis', '4.4.7 Lab - Explore the Social Engineer Toolkil SET', '10:53', '13 vistas'],
+  ['Ofensiva y análisis', '4.4.8 Lab - Using the Browser Exploitation Framework BeEF', '21:47', '8 vistas'],
+  ['Ofensiva y análisis', '5.1.16 Lab - On Path Attacks with Ettercap', '19:18', '15 vistas'],
+  ['Ofensiva y análisis', '3.3.6 Lab - Vulnerability Scanning with Kali Tools', '32:17', '4 vistas'],
+  ['Ofensiva y análisis', '3.2.9 Lab - Packet Crafting With Scapy', '28:05', '5 vistas'],
+  ['Ofensiva y análisis', '3.2.6 Lab -Enumeration with Nmap', '16:18', '5 vistas'],
+  ['Ofensiva y análisis', '3.2.11 Lab – Network Sniffing with Wireshark', '11:48', '15 vistas'],
+  ['Ofensiva y análisis', '3.1.20 Lab - Shodan Searches', '20:06', '6 vistas'],
+  ['Ofensiva y análisis', '3.1.18 Lab - Finding Out About the Organizatio', '45:14', '4 vistas'],
+  ['Ofensiva y análisis', '3.1.14 Lab - Finding Information from SSL Certificates', '20:28', '19 vistas'],
+  ['Ofensiva y análisis', '3.1.4 Lab – Using OSINT Tools', '44:53', '10 vistas'],
+  ['Ofensiva y análisis', '3.1.9 Lab - DNS Lookups', '20:09', '11 vistas'],
+  ['Linux y hardening', 'Examen Final - Lab B: Instalacion, Escaneo y arreglo de vulnerabilidades con Openscap', '48:34', '37 vistas'],
+  ['Linux y hardening', 'Examen Final - Lab A: Instalacion y creacion de escaneos con Nessus en Server Linux RHEL 9.6', '21:03', '15 vistas'],
+  ['Linux y hardening', 'Segundo Parcial - Lab B: Escaneos con Nessus y Fixs de vulnerabilidades', '20:42', '22 vistas'],
+  ['Linux y hardening', 'Segundo Parcial - Lab A: Instalacion de Nessus', '6:29', '21 vistas'],
+  ['Linux y hardening', 'Practica 10 - ClamAV', '20:02', '14 vistas'],
+  ['Linux y hardening', 'Practica 9 - Linux Hardening', '30:23', '13 vistas'],
+  ['Linux y hardening', 'Practica 8 - Lab A: Instalacion de Servidor Linux (RHEL)', '11:23', '24 vistas'],
+  ['Linux y hardening', 'Practica 8 - Lab B: Gestion de Usuarios en Linux (RHEL)', '20:48', '18 vistas'],
+  ['Linux y hardening', '1.3.7 Lab - Investigate Kali Linux', '31:57', '19 vistas'],
+  ['Linux y hardening', 'Laboratorio 3.3: Configuracion de servidor SSH', '21:14', '24 vistas'],
+  ['Linux y hardening', 'Laboratorio 3.2: Shell Scripting en Ubuntu Server', '20:01', '26 vistas'],
+  ['Linux y hardening', 'Laboratorio 3.1: Editando GRUB', '9:49', '14 vistas'],
+  ['Linux y hardening', 'Laboratorio 2.3: Control de disco duro', '10:44', '7 vistas'],
+  ['Linux y hardening', 'Laboratorio 2.2: Administracion de tareas', '9:13', '9 vistas'],
+  ['Linux y hardening', 'Laboratorio 2.1: Actualizacion de repositorios e instalacion de herramientas', '14:02', '74 vistas'],
+  ['Linux y hardening', 'Laboratorio 1.4: Gestion de permisos de archivos', '5:22', '5 vistas'],
+  ['Linux y hardening', 'Laboratorio 1.3: Gestion de usuarios y grupos', '4:52', '9 vistas'],
+  ['Linux y hardening', 'Laboratorio 1.1: Instalación del servidor Ubuntu', '8:37', '61 vistas'],
+  ['Redes y Windows Server', 'Primer Parcial Práctico - Conmutacion y enrutamiento - Onel Pelegrino', '2:04:45', '38 vistas'],
+  ['Redes y Windows Server', 'Practica 7 - LAPS', '6:59', '16 vistas'],
+  ['Redes y Windows Server', 'Practica 6 - DNSSEC', '12:25', '11 vistas'],
+  ['Redes y Windows Server', 'Practica 5 - Instalar Windows Server Backup', '26:41', '24 vistas'],
+  ['Redes y Windows Server', 'Practica 4 - Reemplazos de WSUS', '6:15', '12 vistas'],
+  ['Redes y Windows Server', 'Practica 4 - Lab A: WSUS', '16:41', '27 vistas'],
+  ['Redes y Windows Server', 'Practica 3 - Explicación de ataques Pass The Hashes', '11:17', '13 vistas'],
+  ['Redes y Windows Server', 'Practica 3 - Lab A: Implementación de GPO de Credential Guard en Server y Cliente', '24:48', '34 vistas'],
+  ['Redes y Windows Server', 'Practica 3 - Lab B: Implementacion de GPO para bloquear dispositivos de almacenamientos USB', '10:23', '8 vistas'],
+  ['Redes y Windows Server', 'Practica 2 - Lab B: Bloqueo NTLM', '19:20', '28 vistas'],
+  ['Redes y Windows Server', 'Practica 2 - Lab A: Encriptacion Bitlocker a PC Servidor y Cliente', '31:38', '35 vistas'],
+  ['Redes y Windows Server', 'Practica 1 - Lab C: Instalacion y enrolamiento a dominio de AD de VM Windows 11 Pro', '19:01', '34 vistas'],
+  ['Redes y Windows Server', 'Practica 1 - Lab B: Instalacion y configuracion de Active Directory', '16:54', '24 vistas'],
+  ['Redes y Windows Server', 'Practica 1 - Lab A: Instalacion Windows Server 2022', '18:46', '45 vistas'],
+  ['Redes y Windows Server', 'Laboratiro 1.2: Configuración de parametros de red.', '10:54', '15 vistas'],
+  ['DevOps y servicios', 'Laboratorio 9.3: Instalación de Ansible', '54:04', '56 vistas'],
+  ['DevOps y servicios', 'Laboratorio 9.5: Playbooks', '13:36', '8 vistas'],
+  ['DevOps y servicios', 'Laboratorio 9.4: Comandos Ad-Hoc', '4:57', '9 vistas'],
+  ['DevOps y servicios', 'Laboratorio 9.2: Desplieque de una VM con terraform en digital Ocean', '17:34', '4 vistas'],
+  ['DevOps y servicios', 'Laboratorio 9.1: Instalacion de Webmin', '15:02', '8 vistas'],
+  ['DevOps y servicios', 'Laboratorio 8.3: Despliegue de contenedor de Wordpress utilizando Docker-Compose', '16:01', '12 vistas'],
+  ['DevOps y servicios', 'Laboratorio 8.1: Instalacion y configuracion de Docker', '17:21', '22 vistas'],
+  ['DevOps y servicios', 'Laboratorio 8.2: Instalacion de Portainer', '9:59', '34 vistas'],
+  ['DevOps y servicios', 'Laboratorio 7.3: Creacion de controlador de Dominio con cliente Windows', '28:49', '27 vistas'],
+  ['DevOps y servicios', 'Laboratio 7.2: Practica 2: Creacion de fileserver compatible con Windows utilizando SAMBA', '25:33', '17 vistas'],
+  ['DevOps y servicios', 'Laboratorio 7.1: Compartir archivos entre linux utilizando NFS', '18:16', '15 vistas'],
+  ['DevOps y servicios', 'Laboratorio 6.3: Instalacion de IDS snort', '11:49', '9 vistas'],
+  ['DevOps y servicios', 'Laboratorio 6.4: Configurar 2FA con google authenticator Modulo PAM para Acceso SSH', '8:35', '22 vistas'],
+  ['DevOps y servicios', 'Laboratorio 6.2: IP tables - UFW', '23:30', '7 vistas'],
+  ['DevOps y servicios', 'Laboratorio 6.1: Cifrado', '7:48', '28 vistas'],
+  ['DevOps y servicios', 'Laboratorio 5.3: Cluster de Alta Disponibilidad HTTP', '20:09', '4 vistas'],
+  ['DevOps y servicios', 'Laboratorio 5.2: Instalacion y configuracion del Cluster', '13:29', '11 vistas'],
+  ['DevOps y servicios', 'Laboratorio 5.1: Sincronizacion de carpetas con Rsync', '24:35', '10 vistas'],
+  ['DevOps y servicios', 'Laboratorio 4.3: Instalando servidor de impresion CUPS', '13:51', '9 vistas'],
+  ['DevOps y servicios', 'Laboratorio 4.2: Instalando servidor Postfix', '41:33', '20 vistas'],
+  ['DevOps y servicios', 'Laboratorio 4.1: Instalacion Servidor HTTP Apache2 y Nginx', '57:34', '19 vistas'],
+  ['Música y extra', 'Isnt She Lovely - Stevie Wonder (Rythm and Melodic Guitar Cover)', '3:22', '121 vistas'],
+  ['Música y extra', 'Endless praise - Planetshakers | Guitar solos', '1:35', '58 vistas'],
+  ['Música y extra', 'Escáneres y Fuzzing Web.', '6:35', '34 vistas'],
+  ['Música y extra', 'Instalacion de Windows 10', '10:01', '40 vistas'],
+  ['Música y extra', 'Como instalar Kali Linux en Hyper V', '11:21', '247 vistas'],
+  ['Música y extra', 'Estegnografia y cifrado - Parcial 1.', '5:00', '23 vistas'],
+] as const;
+
+const copy = {
   es: {
-    nav: ['Inicio', 'Sobre mí', 'Habilidades', 'Proyectos', 'Herramientas', 'Contacto'],
+    nav: ['Inicio', 'Sobre mí', 'Aprendizaje', 'Proyectos', 'YouTube', 'Herramientas', 'Contacto'],
     eyebrow: 'Portafolio técnico',
-    title: 'Michael / David Robles',
+    title: 'Michael David Robles Fermin',
     subtitle: 'Estudiante de Ciberseguridad | Redes | Linux | DevOps | Seguridad Web',
     headline: 'Portafolio de Ciberseguridad, Redes y Administración de Servidores',
-    intro:
-      'Construyo laboratorios reales de ciberseguridad, redes y servidores para aprender, probar y desplegar soluciones funcionales.',
-    about:
-      'Soy estudiante del área de ciberseguridad con experiencia práctica en administración de servidores Linux, redes, virtualización, análisis de vulnerabilidades y despliegue de aplicaciones web. Me enfoco en crear laboratorios reales usando Proxmox, Docker, Cloudflare Tunnel, Wazuh, TrueNAS, Nextcloud, OWASP ZAP, SonarQube y Kali Linux.',
-    focus:
-      'Me interesa especialmente la seguridad ofensiva y defensiva, la automatización, la infraestructura doméstica/profesional y el desarrollo de aplicaciones seguras.',
-    profile: 'Espacio reservado para mi foto de perfil',
-    liveSites: 'Accesos principales',
-    open: 'Abrir',
-    skillsTitle: 'Habilidades técnicas',
-    projectsTitle: 'Proyectos',
-    toolsTitle: 'Herramientas que uso',
-    publicProofTitle: 'Evidencia pública',
-    githubTitle: 'GitHub activo',
-    youtubeTitle: 'Canal técnico en YouTube',
-    youtubeText:
-      'Publico prácticas y laboratorios de ciberseguridad donde documento autenticación, XSS, injection attacks, OWASP WSTG, Maltego, análisis de exploits y automatización.',
-    githubText:
-      'Mantengo repositorios de aplicaciones, documentación de Proxmox, laboratorios académicos y proyectos web desplegados en servicios reales.',
-    labsTitle: 'Laboratorios documentados',
-    studiesTitle: 'Certificaciones / estudios',
-    contactTitle: 'Contacto',
-    minecraftTitle: 'Servidor Minecraft',
-    minecraft:
-      'Tengo un servidor Minecraft preparado para Bedrock y Java, administrado en Linux con redirección de puertos, servicios systemd y acceso externo/interno.',
-    studies: [
-      'Formación activa en ciberseguridad, redes y administración de servidores.',
-      'Laboratorios prácticos con SAST, DAST, virtualización, Linux y servicios web.',
-      'Prácticas de topologías en Cisco Packet Tracer con VLANs, DHCP centralizado y OSPF.',
-    ],
-    contact:
-      'Disponible para compartir laboratorios, documentación técnica, proyectos personales y avances de aprendizaje.',
+    intro: 'Combino ciberseguridad, redes, Linux, virtualización y desarrollo web para crear entornos reales, seguros y funcionales.',
+    about: 'Soy estudiante del área de ciberseguridad con experiencia práctica en administración de servidores Linux, redes, virtualización, análisis de vulnerabilidades y despliegue de aplicaciones web. Trabajo con laboratorios reales usando Proxmox, Docker, Cloudflare Tunnel, Wazuh, TrueNAS, Nextcloud, OWASP ZAP, SonarQube y Kali Linux.',
+    focus: 'Me interesa especialmente la seguridad ofensiva y defensiva, la automatización, la infraestructura doméstica/profesional y el desarrollo de aplicaciones seguras. Mis proyectos y laboratorios se publican bajo iClexi.',
   },
   en: {
-    nav: ['Home', 'About', 'Skills', 'Projects', 'Tools', 'Contact'],
+    nav: ['Home', 'About', 'Learning', 'Projects', 'YouTube', 'Tools', 'Contact'],
     eyebrow: 'Technical portfolio',
-    title: 'Michael / David Robles',
+    title: 'Michael David Robles Fermin',
     subtitle: 'Cybersecurity Student | Networking | Linux | DevOps | Web Security',
     headline: 'Cybersecurity, Networking and Server Administration Portfolio',
-    intro:
-      'I build real cybersecurity, networking and server labs to learn, test and deploy working solutions.',
-    about:
-      'I am a cybersecurity student with practical experience in Linux server administration, networking, virtualization, vulnerability analysis and web application deployment. I focus on real labs using Proxmox, Docker, Cloudflare Tunnel, Wazuh, TrueNAS, Nextcloud, OWASP ZAP, SonarQube and Kali Linux.',
-    focus:
-      'I am especially interested in offensive and defensive security, automation, home/professional infrastructure and secure application development.',
-    profile: 'Reserved space for my profile photo',
-    liveSites: 'Main links',
-    open: 'Open',
-    skillsTitle: 'Technical skills',
-    projectsTitle: 'Projects',
-    toolsTitle: 'Tools I use',
-    publicProofTitle: 'Public proof',
-    githubTitle: 'Active GitHub',
-    youtubeTitle: 'Technical YouTube channel',
-    youtubeText:
-      'I publish cybersecurity practices and labs documenting authentication, XSS, injection attacks, OWASP WSTG, Maltego, exploit analysis and automation.',
-    githubText:
-      'I maintain repositories for applications, Proxmox documentation, academic labs and web projects deployed on real services.',
-    labsTitle: 'Documented labs',
-    studiesTitle: 'Certifications / studies',
-    contactTitle: 'Contact',
-    minecraftTitle: 'Minecraft server',
-    minecraft:
-      'I run a Minecraft server prepared for Bedrock and Java, managed on Linux with port forwarding, systemd services and internal/external access.',
-    studies: [
-      'Active training in cybersecurity, networking and server administration.',
-      'Hands-on labs with SAST, DAST, virtualization, Linux and web services.',
-      'Cisco Packet Tracer practice with VLANs, centralized DHCP and OSPF.',
-    ],
-    contact:
-      'Available to share labs, technical documentation, personal projects and learning progress.',
+    intro: 'I combine cybersecurity, networking, Linux, virtualization and web development to build real, secure and functional environments.',
+    about: 'I am a cybersecurity student with hands-on experience in Linux server administration, networking, virtualization, vulnerability analysis and web application deployment. I build real labs with Proxmox, Docker, Cloudflare Tunnel, Wazuh, TrueNAS, Nextcloud, OWASP ZAP, SonarQube and Kali Linux.',
+    focus: 'I am especially interested in offensive and defensive security, automation, home/professional infrastructure and secure application development. My public projects and labs are published as iClexi.',
   },
-};
-
-const skillGroups = {
-  es: [
-    {
-      icon: ShieldCheck,
-      title: 'Ciberseguridad',
-      items: [
-        'Pruebas SAST con SonarQube.',
-        'Pruebas DAST con OWASP ZAP.',
-        'Uso de Kali Linux para análisis de seguridad.',
-        'Nmap, Nikto, Gobuster, Burp Suite y sqlmap.',
-        'Análisis de SQL Injection, XSS, CSRF, Path Traversal, IDOR y malas configuraciones.',
-        'Laboratorios con DVWA y aplicaciones vulnerables.',
-      ],
-    },
-    {
-      icon: Network,
-      title: 'Redes',
-      items: [
-        'Configuración de VLANs.',
-        'DHCP centralizado e IP helper-address.',
-        'OSPF, trunking y segmentación.',
-        'Prácticas en Cisco Packet Tracer.',
-        'Diagnóstico de conectividad, DNS, puertos y NAT.',
-      ],
-    },
-    {
-      icon: Server,
-      title: 'Servidores y virtualización',
-      items: [
-        'Administración de Proxmox.',
-        'Creación y gestión de máquinas virtuales.',
-        'Ubuntu Server, Debian y SSH.',
-        'Redes NAT para VMs.',
-        'Montaje de servicios internos y acceso remoto seguro.',
-      ],
-    },
-    {
-      icon: Code2,
-      title: 'Docker y despliegue',
-      items: [
-        'Contenedores, logs y volúmenes.',
-        'Publicación de aplicaciones con puertos personalizados.',
-        'Servicios web con Next.js, React, TypeScript y PostgreSQL.',
-        'Login, sesiones, recuperación de contraseña y autenticación.',
-      ],
-    },
-    {
-      icon: Cloud,
-      title: 'Cloudflare y acceso remoto',
-      items: [
-        'Cloudflare Tunnel.',
-        'Subdominios para servicios internos.',
-        'Cloudflare Access / Zero Trust.',
-        'Exposición segura sin abrir puertos del router.',
-      ],
-    },
-    {
-      icon: HardDrive,
-      title: 'NAS y nube privada',
-      items: [
-        'TrueNAS y Nextcloud.',
-        'Compartición de archivos en red.',
-        'Almacenamiento para backups y archivos personales.',
-        'Acceso web externo a servicios privados.',
-      ],
-    },
-  ],
-  en: [
-    {
-      icon: ShieldCheck,
-      title: 'Cybersecurity',
-      items: [
-        'SAST testing with SonarQube.',
-        'DAST testing with OWASP ZAP.',
-        'Kali Linux for security analysis.',
-        'Nmap, Nikto, Gobuster, Burp Suite and sqlmap.',
-        'Analysis of SQL Injection, XSS, CSRF, Path Traversal, IDOR and misconfigurations.',
-        'Labs with DVWA and vulnerable applications.',
-      ],
-    },
-    {
-      icon: Network,
-      title: 'Networking',
-      items: [
-        'VLAN configuration.',
-        'Centralized DHCP and IP helper-address.',
-        'OSPF, trunking and segmentation.',
-        'Cisco Packet Tracer practice.',
-        'Connectivity, DNS, ports and NAT troubleshooting.',
-      ],
-    },
-    {
-      icon: Server,
-      title: 'Servers and virtualization',
-      items: [
-        'Proxmox administration.',
-        'Virtual machine creation and management.',
-        'Ubuntu Server, Debian and SSH.',
-        'NAT networks for VMs.',
-        'Internal services and secure remote access.',
-      ],
-    },
-    {
-      icon: Code2,
-      title: 'Docker and deployment',
-      items: [
-        'Containers, logs and volumes.',
-        'Publishing apps on custom ports.',
-        'Web services with Next.js, React, TypeScript and PostgreSQL.',
-        'Login, sessions, password recovery and authentication.',
-      ],
-    },
-    {
-      icon: Cloud,
-      title: 'Cloudflare and remote access',
-      items: [
-        'Cloudflare Tunnel.',
-        'Subdomains for internal services.',
-        'Cloudflare Access / Zero Trust.',
-        'Secure exposure without opening router ports.',
-      ],
-    },
-    {
-      icon: HardDrive,
-      title: 'NAS and private cloud',
-      items: [
-        'TrueNAS and Nextcloud.',
-        'Network file sharing.',
-        'Storage organization for backups and personal files.',
-        'External web access to private services.',
-      ],
-    },
-  ],
-};
-
-const projects = {
-  es: [
-    {
-      title: 'RitmoHub',
-      description:
-        'Aplicación web musical con login, sesiones, base de datos, recuperación de contraseña, Docker y exposición mediante Cloudflare Tunnel.',
-      href: 'https://ritmohub.iclexi.tech',
-      icon: Code2,
-    },
-    {
-      title: 'Homelab en Proxmox',
-      description:
-        'Entorno de virtualización con múltiples VMs para Wazuh, Nextcloud, TrueNAS, servidores Linux y pruebas de red.',
-      href: '#tools',
-      icon: Server,
-    },
-    {
-      title: 'Laboratorio SAST/DAST',
-      description:
-        'Evaluación de aplicaciones web usando SonarQube y OWASP ZAP para encontrar vulnerabilidades en código y en ejecución.',
-      href: '#skills',
-      icon: ShieldCheck,
-    },
-    {
-      title: 'Servidor NAS / Nube privada',
-      description:
-        'Implementación de TrueNAS y Nextcloud para almacenamiento, acceso web y compartición de archivos.',
-      href: '#tools',
-      icon: HardDrive,
-    },
-    {
-      title: 'Topología Packet Tracer',
-      description:
-        'Red con routers, switches, VLANs, DHCP centralizado, OSPF y conectividad extremo a extremo.',
-      href: '#skills',
-      icon: Network,
-    },
-    {
-      title: 'Minecraft Bedrock y Java',
-      description:
-        'Servidor dedicado en Linux con redirección de puertos internos, servicios systemd y acceso externo/interno.',
-      href: '#minecraft',
-      icon: Gamepad2,
-    },
-  ],
-  en: [
-    {
-      title: 'RitmoHub',
-      description:
-        'Music web app with login, sessions, database, password recovery, Docker deployment and Cloudflare Tunnel exposure.',
-      href: 'https://ritmohub.iclexi.tech',
-      icon: Code2,
-    },
-    {
-      title: 'Proxmox homelab',
-      description:
-        'Virtualization environment with multiple VMs for Wazuh, Nextcloud, TrueNAS, Linux servers and network testing.',
-      href: '#tools',
-      icon: Server,
-    },
-    {
-      title: 'SAST/DAST lab',
-      description:
-        'Web application assessment using SonarQube and OWASP ZAP to find source and runtime vulnerabilities.',
-      href: '#skills',
-      icon: ShieldCheck,
-    },
-    {
-      title: 'NAS / private cloud',
-      description:
-        'TrueNAS and Nextcloud implementation for storage, web access and file sharing.',
-      href: '#tools',
-      icon: HardDrive,
-    },
-    {
-      title: 'Packet Tracer topology',
-      description:
-        'Network with routers, switches, VLANs, centralized DHCP, OSPF and end-to-end connectivity.',
-      href: '#skills',
-      icon: Network,
-    },
-    {
-      title: 'Minecraft Bedrock and Java',
-      description:
-        'Dedicated Linux server with internal port forwarding, systemd services and internal/external access.',
-      href: '#minecraft',
-      icon: Gamepad2,
-    },
-  ],
 };
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>('es');
-  const copy = content[language];
-  const skills = useMemo(() => skillGroups[language], [language]);
-  const projectList = useMemo(() => projects[language], [language]);
+  const [selectedService, setSelectedService] = useState<ServiceLink | null>(null);
+  const c = copy[language];
+  const videosByCategory = useMemo(() => {
+    return youtubeVideos.reduce<Record<string, typeof youtubeVideos[number][]>>((groups, video) => {
+      const category = video[0];
+      groups[category] = groups[category] || [];
+      groups[category].push(video);
+      return groups;
+    }, {});
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
-
     void import('animejs').then((animeModule) => {
       if (cancelled) return;
       const module = animeModule as unknown as {
         animate?: (targets: string, params: Record<string, unknown>) => void;
         stagger?: (value: number) => unknown;
-        default?: (params: Record<string, unknown>) => void;
       };
-
-      if (module.animate) {
-        module.animate('.animated-entry', {
-          translateY: [18, 0],
-          delay: module.stagger ? module.stagger(45) : 0,
-          duration: 650,
-          easing: 'outCubic',
-        });
-        return;
-      }
-
-      module.default?.({
-        targets: '.animated-entry',
-        translateY: [18, 0],
-        delay: (_element: unknown, index: number) => index * 45,
-        duration: 650,
-        easing: 'easeOutCubic',
+      module.animate?.('.animated-entry', {
+        opacity: [0, 1],
+        translateY: [14, 0],
+        delay: module.stagger ? module.stagger(28) : 0,
+        duration: 520,
+        easing: 'outCubic',
       });
     });
-
     return () => {
       cancelled = true;
     };
@@ -462,22 +320,18 @@ export default function Home() {
   return (
     <main>
       <header className="topbar">
-        <a className="brand" href="#home" aria-label="MR">
+        <a className="brand" href="#home" aria-label="Michael Robles">
           <Terminal size={20} />
-          <span>MR</span>
+          <span>MRF</span>
         </a>
         <nav className="navlinks" aria-label="Principal">
-          {copy.nav.map((item, index) => (
-            <a key={item} href={`#${['home', 'about', 'skills', 'projects', 'tools', 'contact'][index]}`}>
+          {c.nav.map((item, index) => (
+            <a key={item} href={`#${['home', 'about', 'learning', 'projects', 'youtube', 'tools', 'contact'][index]}`}>
               {item}
             </a>
           ))}
         </nav>
-        <button
-          className="language-toggle"
-          type="button"
-          onClick={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
-        >
+        <button className="language-toggle" type="button" onClick={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}>
           <Languages size={18} />
           {language === 'es' ? 'EN' : 'ES'}
         </button>
@@ -485,121 +339,181 @@ export default function Home() {
 
       <section id="home" className="hero section-band">
         <div className="hero-copy animated-entry">
-          <p className="eyebrow">{copy.eyebrow}</p>
-          <h1>{copy.title}</h1>
-          <p className="subtitle">{copy.subtitle}</p>
-          <h2>{copy.headline}</h2>
-          <p className="intro">{copy.intro}</p>
+          <p className="eyebrow">{c.eyebrow}</p>
+          <h1>{c.title}</h1>
+          <p className="subtitle">{c.subtitle}</p>
+          <h2>{c.headline}</h2>
+          <p className="intro">{c.intro}</p>
           <div className="hero-actions">
-            <a className="primary-link" href="#projects">
-              <Server size={18} />
-              {copy.projectsTitle}
-            </a>
-            <a className="secondary-link" href="https://github.com/iClexi" target="_blank" rel="noreferrer">
-              <GitBranch size={18} />
-              GitHub
-            </a>
+            <a className="primary-link" href="#projects"><Server size={18} />Proyectos</a>
+            <a className="secondary-link" href="#youtube"><MonitorPlay size={18} />YouTube</a>
+            <a className="secondary-link" href="https://github.com/iClexi" target="_blank" rel="noreferrer"><GitBranch size={18} />GitHub</a>
           </div>
         </div>
-        <div className="profile-panel animated-entry">
-          <Image src="/profile-placeholder.svg" alt={copy.profile} width={640} height={760} priority />
-          <p>{copy.profile}</p>
+        <div className="hero-orbit animated-entry" aria-hidden="true">
+          <div className="orbit-core"><ShieldCheck size={54} /></div>
+          <span>Proxmox</span>
+          <span>Docker</span>
+          <span>Wazuh</span>
+          <span>PostgreSQL</span>
         </div>
       </section>
 
       <section className="quick-links section-band">
         <div className="section-heading animated-entry">
-          <p className="eyebrow">{copy.liveSites}</p>
-          <h2>{language === 'es' ? 'Tres sitios para abrir' : 'Three sites to open'}</h2>
+          <p className="eyebrow">Accesos principales</p>
+          <h2>{language === 'es' ? 'Servicios publicados con contexto' : 'Published services with context'}</h2>
         </div>
         <div className="link-grid">
-          {links.map((link) => (
-            <a key={link.href} className="site-tile animated-entry" href={link.href} target="_blank" rel="noreferrer">
-              <span>{link.label}</span>
-              <strong>
-                {copy.open}
-                <ExternalLink size={16} />
-              </strong>
-            </a>
-          ))}
+          {serviceLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <button key={link.href} className="site-tile animated-entry" type="button" onClick={() => setSelectedService(link)}>
+                <Icon size={30} style={{ color: link.accent }} />
+                <span>{link.label}</span>
+                <strong>{language === 'es' ? 'Ver resumen' : 'View summary'}<ExternalLink size={16} /></strong>
+              </button>
+            );
+          })}
         </div>
       </section>
 
       <section id="about" className="section-band about">
         <div className="section-heading animated-entry">
-          <p className="eyebrow">{copy.nav[1]}</p>
+          <p className="eyebrow">Sobre mí</p>
           <h2>{language === 'es' ? 'Quién soy' : 'Who I am'}</h2>
         </div>
         <div className="about-grid">
-          <p className="animated-entry">{copy.about}</p>
-          <p className="animated-entry">{copy.focus}</p>
+          <p className="animated-entry">{c.about}</p>
+          <p className="animated-entry">{c.focus}</p>
         </div>
       </section>
 
-      <section id="skills" className="section-band">
+      <section id="learning" className="section-band studies">
         <div className="section-heading animated-entry">
-          <p className="eyebrow">{copy.skillsTitle}</p>
-          <h2>{language === 'es' ? 'Experiencia práctica' : 'Hands-on experience'}</h2>
+          <p className="eyebrow">Aprendizaje continuo</p>
+          <h2>{language === 'es' ? 'Certificaciones y formación' : 'Certifications and training'}</h2>
         </div>
-        <div className="skill-grid">
-          {skills.map((group) => {
-            const Icon = group.icon;
+        <div className="cert-grid">
+          {certifications.map((cert) => (
+            <article className="cert-card animated-entry" key={cert.name}>
+              <div className="cert-logo" style={{ '--tone': cert.tone } as CSSProperties}>{cert.issuer}</div>
+              <div>
+                <h3>{cert.name}</h3>
+                <p>{cert.detail}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="projects" className="section-band projects">
+        <div className="section-heading animated-entry">
+          <p className="eyebrow">Proyectos</p>
+          <h2>{language === 'es' ? 'Laboratorios, servicios y trabajo real' : 'Labs, services and real work'}</h2>
+        </div>
+        <div className="project-grid">
+          {projects.map((project) => {
+            const Icon = project.icon;
+            const content = (
+              <>
+                <Icon size={24} />
+                <h3>{project.title}</h3>
+                <p>{project.detail}</p>
+              </>
+            );
+            return project.href ? (
+              <a className="project-card animated-entry" href={project.href} target="_blank" rel="noreferrer" key={project.title}>{content}</a>
+            ) : (
+              <article className="project-card animated-entry" key={project.title}>{content}</article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="section-band homelab">
+        <div className="section-heading animated-entry">
+          <p className="eyebrow">Laboratorios y servicios</p>
+          <h2>{language === 'es' ? 'Lo que corre en mi Proxmox' : 'What runs in my Proxmox'}</h2>
+        </div>
+        <div className="service-grid">
+          {proxmoxServices.map((service) => {
+            const Icon = service.icon;
             return (
-              <article className="skill-card animated-entry" key={group.title}>
-                <div className="card-title">
-                  <Icon size={22} />
-                  <h3>{group.title}</h3>
-                </div>
-                <ul>
-                  {group.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
+              <article className="service-card animated-entry" key={service.name}>
+                <Icon size={22} />
+                <h3>{service.name}</h3>
+                <p>{service.role}</p>
               </article>
             );
           })}
         </div>
       </section>
 
-      <section id="projects" className="section-band projects">
+      <section id="youtube" className="section-band public-proof">
         <div className="section-heading animated-entry">
-          <p className="eyebrow">{copy.projectsTitle}</p>
-          <h2>{language === 'es' ? 'Laboratorios y servicios' : 'Labs and services'}</h2>
+          <p className="eyebrow">Prácticas publicadas</p>
+          <h2>{language === 'es' ? 'Canal técnico en YouTube' : 'Technical YouTube channel'}</h2>
+          <p className="section-text">{language === 'es' ? 'Organicé tus videos por área para que se vea el progreso real: web/API, ofensiva, Linux, redes, Windows Server, DevOps y música.' : 'Videos organized by area to show real progress across web/API, offensive security, Linux, networking, Windows Server, DevOps and music.'}</p>
         </div>
-        <div className="project-grid">
-          {projectList.map((project) => {
-            const Icon = project.icon;
-            return (
-              <a className="project-card animated-entry" href={project.href} key={project.title}>
-                <Icon size={24} />
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-              </a>
-            );
-          })}
+        <div className="youtube-layout">
+          {Object.entries(videosByCategory).map(([category, videos]) => (
+            <article className="youtube-group animated-entry" key={category}>
+              <div className="card-title">
+                <MonitorPlay size={24} />
+                <h3>{category}</h3>
+              </div>
+              <div className="video-list">
+                {videos.map((video) => (
+                  <a className="video-row" href={`https://www.youtube.com/@iclexi2688/search?query=${encodeURIComponent(video[1])}`} target="_blank" rel="noreferrer" key={video[1]}>
+                    <span>{video[1]}</span>
+                    <strong>{video[2]} · {video[3]}</strong>
+                  </a>
+                ))}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section id="public-proof" className="section-band public-proof">
+      <section id="tools" className="section-band">
         <div className="section-heading animated-entry">
-          <p className="eyebrow">{copy.publicProofTitle}</p>
-          <h2>{language === 'es' ? 'Actividad real en línea' : 'Real online activity'}</h2>
+          <p className="eyebrow">Stack y herramientas</p>
+          <h2>{language === 'es' ? 'Tecnologías que uso' : 'Technologies I use'}</h2>
+        </div>
+        <div className="tool-cloud">
+          {toolStack.map(([tool, Icon]) => (
+            <span className="tool-pill animated-entry" key={tool}>
+              <Icon size={16} />
+              {tool}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <section id="minecraft" className="section-band minecraft">
+        <div className="minecraft-visual animated-entry">
+          <div className="minecraft-sky">
+            <Gamepad2 size={52} />
+            <span>mc.iclexi.tech</span>
+          </div>
+        </div>
+        <div className="minecraft-copy animated-entry">
+          <p className="eyebrow">Servidor Minecraft</p>
+          <h2>Bedrock + Java</h2>
+          <p>Servidor dedicado en Linux para Minecraft Java y Bedrock, publicado como <strong>mc.iclexi.tech</strong>, con servicios systemd, red interna/externa y operación pensada para jugar desde distintos clientes.</p>
+        </div>
+      </section>
+
+      <section className="section-band public-proof">
+        <div className="section-heading animated-entry">
+          <p className="eyebrow">Actividad real en línea</p>
+          <h2>GitHub + YouTube</h2>
         </div>
         <div className="evidence-grid">
           <article className="evidence-card animated-entry">
-            <div className="card-title">
-              <FolderGit2 size={24} />
-              <h3>{copy.githubTitle}</h3>
-            </div>
-            <p>{copy.githubText}</p>
-            <div className="metrics-grid" aria-label={copy.githubTitle}>
-              {githubMetrics.map((metric) => (
-                <div className="metric-tile" key={metric.labelEs}>
-                  <strong>{metric.value}</strong>
-                  <span>{language === 'es' ? metric.labelEs : metric.labelEn}</span>
-                </div>
-              ))}
-            </div>
+            <div className="card-title"><FolderGit2 size={24} /><h3>GitHub activo</h3></div>
+            <p>Repositorios con aplicaciones web, documentación de Proxmox, laboratorios de red, automatización y proyectos desplegados en servicios reales.</p>
             <div className="repo-list">
               {githubRepos.map((repo) => (
                 <a className="repo-row" href={repo.href} target="_blank" rel="noreferrer" key={repo.href}>
@@ -608,116 +522,63 @@ export default function Home() {
                 </a>
               ))}
             </div>
-            <a className="secondary-link compact-link" href="https://github.com/iClexi" target="_blank" rel="noreferrer">
-              <GitBranch size={18} />
-              GitHub
-              <ExternalLink size={16} />
-            </a>
           </article>
-
           <article className="evidence-card animated-entry">
-            <div className="card-title">
-              <MonitorPlay size={24} />
-              <h3>{copy.youtubeTitle}</h3>
+            <div className="card-title"><Trophy size={24} /><h3>Resumen público</h3></div>
+            <div className="metrics-grid">
+              <div className="metric-tile"><strong>{youtubeVideos.length}</strong><span>videos listados</span></div>
+              <div className="metric-tile"><strong>{githubRepos.length}</strong><span>repos destacados</span></div>
+              <div className="metric-tile"><strong>10</strong><span>servicios Proxmox documentados</span></div>
             </div>
-            <p>{copy.youtubeText}</p>
-            <a
-              className="secondary-link compact-link"
-              href="https://www.youtube.com/@iclexi2688/videos"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <MonitorPlay size={18} />
-              YouTube
-              <ExternalLink size={16} />
-            </a>
           </article>
-        </div>
-      </section>
-
-      <section id="labs" className="section-band">
-        <div className="section-heading animated-entry">
-          <p className="eyebrow">{copy.labsTitle}</p>
-          <h2>{language === 'es' ? 'Prácticas publicadas' : 'Published practices'}</h2>
-        </div>
-        <div className="video-lab-grid">
-          {youtubeLabs.map((lab) => (
-            <a className="video-lab-card animated-entry" href={lab.href} target="_blank" rel="noreferrer" key={lab.href}>
-              <FileCode2 size={22} />
-              <h3>{lab.title}</h3>
-              <p>{lab.detail}</p>
-              <strong>
-                YouTube
-                <ExternalLink size={15} />
-              </strong>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section id="tools" className="section-band">
-        <div className="section-heading animated-entry">
-          <p className="eyebrow">{copy.toolsTitle}</p>
-          <h2>{language === 'es' ? 'Stack y herramientas' : 'Stack and tools'}</h2>
-        </div>
-        <div className="tool-cloud">
-          {tools.map((tool) => (
-            <span className="tool-pill animated-entry" key={tool}>
-              {tool}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section id="minecraft" className="section-band minecraft">
-        <div className="minecraft-copy animated-entry">
-          <Gamepad2 size={30} />
-          <div>
-            <p className="eyebrow">{copy.minecraftTitle}</p>
-            <h2>Bedrock + Java</h2>
-            <p>{copy.minecraft}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-band studies">
-        <div className="section-heading animated-entry">
-          <p className="eyebrow">{copy.studiesTitle}</p>
-          <h2>{language === 'es' ? 'Aprendizaje continuo' : 'Continuous learning'}</h2>
-        </div>
-        <div className="study-list">
-          {copy.studies.map((study) => (
-            <div className="study-row animated-entry" key={study}>
-              <Database size={18} />
-              <span>{study}</span>
-            </div>
-          ))}
         </div>
       </section>
 
       <footer id="contact" className="section-band footer">
         <div className="footer-content animated-entry">
           <div>
-            <p className="eyebrow">{copy.contactTitle}</p>
-            <h2>{copy.title}</h2>
-            <p>{copy.contact}</p>
+            <p className="eyebrow">Contacto</p>
+            <h2>{c.title}</h2>
+            <p>Disponible para compartir laboratorios, documentación técnica, proyectos personales y avances de aprendizaje.</p>
           </div>
           <div className="footer-actions">
-            <a className="secondary-link" href="https://github.com/iClexi" target="_blank" rel="noreferrer">
-              <GitBranch size={18} />
-              GitHub
-            </a>
-            <a className="secondary-link" href="mailto:contacto@iclexi.tech">
-              <Mail size={18} />
-              contacto@iclexi.tech
-            </a>
-            <span className="identity-chip">
-              <UserRound size={18} />
-              iClexi
-            </span>
+            {socialLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <a className="secondary-link" href={link.href} target="_blank" rel="noreferrer" key={link.href}>
+                  <Icon size={18} />
+                  {link.label}
+                </a>
+              );
+            })}
+            <a className="secondary-link" href="mailto:contacto@iclexi.tech"><Mail size={18} />contacto@iclexi.tech</a>
+            <span className="identity-chip"><UserRound size={18} />iClexi</span>
           </div>
         </div>
       </footer>
+
+      {selectedService && (
+        <div className="modal-backdrop" role="dialog" aria-modal="true">
+          <div className="service-modal">
+            <button className="modal-close" type="button" onClick={() => setSelectedService(null)} aria-label="Cerrar">
+              <X size={22} />
+            </button>
+            <div className="modal-icon" style={{ color: selectedService.accent }}>
+              <selectedService.icon size={34} />
+            </div>
+            <p className="eyebrow">Resumen del servicio</p>
+            <h2>{selectedService.label}</h2>
+            <p>{language === 'es' ? selectedService.summaryEs : selectedService.summaryEn}</p>
+            <ul>
+              {(language === 'es' ? selectedService.bulletsEs : selectedService.bulletsEn).map((item) => <li key={item}>{item}</li>)}
+            </ul>
+            <a className="primary-link" href={selectedService.href} target="_blank" rel="noreferrer">
+              Abrir servicio
+              <ExternalLink size={17} />
+            </a>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
