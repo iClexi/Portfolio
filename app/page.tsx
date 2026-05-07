@@ -24,7 +24,6 @@ import {
   UserRound,
   X,
 } from 'lucide-react';
-import type { CSSProperties } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
 type Language = 'es' | 'en';
@@ -102,11 +101,41 @@ const toolStack = [
 ] as const;
 
 const certifications = [
-  { issuer: 'Cisco', name: 'CCNA 1', detail: 'Networking Basics / Switching fundamentals', tone: '#1ba0d7' },
-  { issuer: 'Cisco', name: 'CCNA 2', detail: 'Switching, Routing and Wireless Essentials', tone: '#1ba0d7' },
-  { issuer: 'Cisco', name: 'CCNA 3', detail: 'Enterprise Networking, Security and Automation', tone: '#1ba0d7' },
-  { issuer: 'Cisco', name: 'Ethical Hacker', detail: 'Fundamentos de hacking ético y pruebas de seguridad', tone: '#1ba0d7' },
-  { issuer: 'Huawei', name: 'HCIA Datacom', detail: 'Redes IP, routing, switching y operación Datacom', tone: '#e23d3d' },
+  {
+    issuer: 'Cisco',
+    name: 'CCNA 1',
+    detail: 'Networking Basics / Switching fundamentals',
+    logo: '/certifications/ccna1.png',
+    logoAlt: 'Logo Cisco CCNA 1',
+  },
+  {
+    issuer: 'Cisco',
+    name: 'CCNA 2',
+    detail: 'Switching, Routing and Wireless Essentials',
+    logo: '/certifications/ccna2.png',
+    logoAlt: 'Logo Cisco CCNA 2',
+  },
+  {
+    issuer: 'Cisco',
+    name: 'CCNA 3',
+    detail: 'Enterprise Networking, Security and Automation',
+    logo: '/certifications/ccna3.png',
+    logoAlt: 'Logo Cisco CCNA 3',
+  },
+  {
+    issuer: 'Cisco',
+    name: 'Ethical Hacker',
+    detail: 'Fundamentos de hacking ético y pruebas de seguridad',
+    logo: '/certifications/ethical-hacker.png',
+    logoAlt: 'Logo Cisco Ethical Hacker',
+  },
+  {
+    issuer: 'Huawei',
+    name: 'HCIA Datacom',
+    detail: 'Redes IP, routing, switching y operación Datacom',
+    logo: '/certifications/hcia-datacom.png',
+    logoAlt: 'Logo Huawei HCIA Datacom',
+  },
 ];
 
 const proxmoxServices = [
@@ -254,11 +283,13 @@ const youtubeVideos = [
   ['DevOps y servicios', 'Laboratorio 4.1: Instalacion Servidor HTTP Apache2 y Nginx', '57:34', '19 vistas'],
   ['Música y extra', 'Isnt She Lovely - Stevie Wonder (Rythm and Melodic Guitar Cover)', '3:22', '121 vistas'],
   ['Música y extra', 'Endless praise - Planetshakers | Guitar solos', '1:35', '58 vistas'],
-  ['Música y extra', 'Escáneres y Fuzzing Web.', '6:35', '34 vistas'],
-  ['Música y extra', 'Instalacion de Windows 10', '10:01', '40 vistas'],
-  ['Música y extra', 'Como instalar Kali Linux en Hyper V', '11:21', '247 vistas'],
-  ['Música y extra', 'Estegnografia y cifrado - Parcial 1.', '5:00', '23 vistas'],
+  ['Seguridad web y API', 'Escáneres y Fuzzing Web.', '6:35', '34 vistas'],
+  ['Redes y Windows Server', 'Instalacion de Windows 10', '10:01', '40 vistas'],
+  ['Linux y hardening', 'Como instalar Kali Linux en Hyper V', '11:21', '247 vistas'],
+  ['Ofensiva y análisis', 'Estegnografia y cifrado - Parcial 1.', '5:00', '23 vistas'],
 ] as const;
+
+const YOUTUBE_CATEGORY_STORAGE_KEY = 'portfolio-youtube-category';
 
 const copy = {
   es: {
@@ -268,8 +299,8 @@ const copy = {
     subtitle: 'Estudiante de Ciberseguridad | Redes | Linux | DevOps | Seguridad Web',
     headline: 'Portafolio de Ciberseguridad, Redes y Administración de Servidores',
     intro: 'Combino ciberseguridad, redes, Linux, virtualización y desarrollo web para crear entornos reales, seguros y funcionales.',
-    about: 'Soy estudiante del área de ciberseguridad con experiencia práctica en administración de servidores Linux, redes, virtualización, análisis de vulnerabilidades y despliegue de aplicaciones web. Trabajo con laboratorios reales usando Proxmox, Docker, Cloudflare Tunnel, Wazuh, TrueNAS, Nextcloud, OWASP ZAP, SonarQube y Kali Linux.',
-    focus: 'Me interesa especialmente la seguridad ofensiva y defensiva, la automatización, la infraestructura doméstica/profesional y el desarrollo de aplicaciones seguras. Mis proyectos y laboratorios se publican bajo iClexi.',
+    about: 'Soy estudiante del área de ciberseguridad con experiencia práctica en administración de servidores Linux, redes, virtualización, análisis de vulnerabilidades y despliegue de aplicaciones web. Trabajo con laboratorios reales usando Proxmox, Docker, Cloudflare Tunnel, Wazuh, TrueNAS, Nextcloud, OWASP ZAP, SonarQube y Kali Linux, con foco fuerte en operación de servicios.',
+    focus: 'Me interesa especialmente la seguridad ofensiva y defensiva, pero remarco mi enfoque principal en servidores, alta disponibilidad e infraestructura: diseño, despliegue, hardening y operación de entornos reales. Mis proyectos y laboratorios se publican bajo iClexi.',
   },
   en: {
     nav: ['Home', 'About', 'Learning', 'Projects', 'YouTube', 'Tools', 'Contact'],
@@ -278,14 +309,15 @@ const copy = {
     subtitle: 'Cybersecurity Student | Networking | Linux | DevOps | Web Security',
     headline: 'Cybersecurity, Networking and Server Administration Portfolio',
     intro: 'I combine cybersecurity, networking, Linux, virtualization and web development to build real, secure and functional environments.',
-    about: 'I am a cybersecurity student with hands-on experience in Linux server administration, networking, virtualization, vulnerability analysis and web application deployment. I build real labs with Proxmox, Docker, Cloudflare Tunnel, Wazuh, TrueNAS, Nextcloud, OWASP ZAP, SonarQube and Kali Linux.',
-    focus: 'I am especially interested in offensive and defensive security, automation, home/professional infrastructure and secure application development. My public projects and labs are published as iClexi.',
+    about: 'I am a cybersecurity student with hands-on experience in Linux server administration, networking, virtualization, vulnerability analysis and web application deployment. I build real labs with Proxmox, Docker, Cloudflare Tunnel, Wazuh, TrueNAS, Nextcloud, OWASP ZAP, SonarQube and Kali Linux, with a strong focus on service operations.',
+    focus: 'I am especially interested in offensive and defensive security, while strongly focusing on servers and infrastructure: design, deployment, hardening and operations for real environments. My public projects and labs are published as iClexi.',
   },
 };
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>('es');
   const [selectedService, setSelectedService] = useState<ServiceLink | null>(null);
+  const [selectedVideoCategory, setSelectedVideoCategory] = useState<string>('all');
   const c = copy[language];
   const videosByCategory = useMemo(() => {
     return youtubeVideos.reduce<Record<string, typeof youtubeVideos[number][]>>((groups, video) => {
@@ -295,9 +327,52 @@ export default function Home() {
       return groups;
     }, {});
   }, []);
+  const videoCategories = useMemo(() => Object.keys(videosByCategory), [videosByCategory]);
+  const filteredVideoGroups = useMemo(() => {
+    if (selectedVideoCategory === 'all') {
+      return Object.entries(videosByCategory);
+    }
+
+    const selected = videosByCategory[selectedVideoCategory];
+    return selected ? [[selectedVideoCategory, selected] as const] : Object.entries(videosByCategory);
+  }, [selectedVideoCategory, videosByCategory]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const savedCategory = window.localStorage.getItem(YOUTUBE_CATEGORY_STORAGE_KEY);
+
+    if (savedCategory && (savedCategory === 'all' || videoCategories.includes(savedCategory))) {
+      setSelectedVideoCategory(savedCategory);
+    }
+  }, [videoCategories]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(YOUTUBE_CATEGORY_STORAGE_KEY, selectedVideoCategory);
+  }, [selectedVideoCategory]);
+
+  useEffect(() => {
+    if (selectedVideoCategory !== 'all' && !videoCategories.includes(selectedVideoCategory)) {
+      setSelectedVideoCategory('all');
+    }
+  }, [selectedVideoCategory, videoCategories]);
 
   useEffect(() => {
     let cancelled = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -6% 0px' },
+    );
+
+    document.querySelectorAll('.animated-entry').forEach((node) => observer.observe(node));
+
     void import('animejs').then((animeModule) => {
       if (cancelled) return;
       const module = animeModule as unknown as {
@@ -311,9 +386,34 @@ export default function Home() {
         duration: 520,
         easing: 'outCubic',
       });
+      module.animate?.('.hero-orbit span', {
+        translateY: [-4, 4],
+        direction: 'alternate',
+        easing: 'inOutSine',
+        duration: 2200,
+        loop: true,
+        delay: module.stagger ? module.stagger(130) : 0,
+      });
+      module.animate?.('.tool-pill', {
+        translateY: [0, -3],
+        direction: 'alternate',
+        easing: 'inOutSine',
+        duration: 1600,
+        loop: true,
+        delay: module.stagger ? module.stagger(45) : 0,
+      });
+      module.animate?.('.site-tile, .project-card, .video-row, .cert-card', {
+        boxShadow: ['0 0 0 rgba(39, 224, 163, 0)', '0 16px 40px rgba(39, 224, 163, 0.07)'],
+        direction: 'alternate',
+        easing: 'inOutSine',
+        duration: 1800,
+        loop: true,
+        delay: module.stagger ? module.stagger(60) : 0,
+      });
     });
     return () => {
       cancelled = true;
+      observer.disconnect();
     };
   }, [language]);
 
@@ -397,8 +497,20 @@ export default function Home() {
         <div className="cert-grid">
           {certifications.map((cert) => (
             <article className="cert-card animated-entry" key={cert.name}>
-              <div className="cert-logo" style={{ '--tone': cert.tone } as CSSProperties}>{cert.issuer}</div>
+              <div
+                className="cert-logo-wrap"
+                style={{ maxWidth: '230px', width: '100%', height: '132px', background: '#fff', padding: '10px' }}
+              >
+                <img
+                  className="cert-logo-image"
+                  src={cert.logo}
+                  alt={cert.logoAlt}
+                  loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              </div>
               <div>
+                <p className="cert-issuer">{cert.issuer}</p>
                 <h3>{cert.name}</h3>
                 <p>{cert.detail}</p>
               </div>
@@ -456,8 +568,33 @@ export default function Home() {
           <h2>{language === 'es' ? 'Canal técnico en YouTube' : 'Technical YouTube channel'}</h2>
           <p className="section-text">{language === 'es' ? 'Organicé tus videos por área para que se vea el progreso real: web/API, ofensiva, Linux, redes, Windows Server, DevOps y música.' : 'Videos organized by area to show real progress across web/API, offensive security, Linux, networking, Windows Server, DevOps and music.'}</p>
         </div>
+        <div className="youtube-menu animated-entry">
+          <div className="youtube-filter-controls">
+            <label className="youtube-filter-label" htmlFor="youtube-category-select">
+              {language === 'es' ? 'Menú de categoría (guardado)' : 'Saved category menu'}
+            </label>
+            <select
+              id="youtube-category-select"
+              className="youtube-filter-select"
+              value={selectedVideoCategory}
+              onChange={(event) => setSelectedVideoCategory(event.target.value)}
+            >
+              <option value="all">{language === 'es' ? 'Todos los videos' : 'All videos'} · {youtubeVideos.length}</option>
+              {videoCategories.map((category) => (
+                <option value={category} key={category}>
+                  {category} · {videosByCategory[category].length}
+                </option>
+              ))}
+            </select>
+            <p className="youtube-filter-hint">
+              {language === 'es'
+                ? 'Tu selección se guarda automáticamente para la próxima visita.'
+                : 'Your selection is saved automatically for your next visit.'}
+            </p>
+          </div>
+        </div>
         <div className="youtube-layout">
-          {Object.entries(videosByCategory).map(([category, videos]) => (
+          {filteredVideoGroups.map(([category, videos]) => (
             <article className="youtube-group animated-entry" key={category}>
               <div className="card-title">
                 <MonitorPlay size={24} />
