@@ -462,7 +462,7 @@ export default function Home() {
   return (
     <main>
       <header className="topbar">
-        <a className="brand" href="#home" aria-label="Michael Robles">
+        <a className="brand" href="#home" aria-label="MR">
           <Terminal size={20} />
           <span>MR</span>
         </a>
