@@ -6,11 +6,14 @@ import {
   Code2,
   Database,
   ExternalLink,
+  FileCode2,
+  FolderGit2,
   Gamepad2,
   GitBranch,
   HardDrive,
   Languages,
   Mail,
+  MonitorPlay,
   Network,
   Server,
   ShieldCheck,
@@ -50,6 +53,64 @@ const tools = [
   'GitHub',
 ];
 
+const githubMetrics = [
+  { value: '22', labelEs: 'repositorios públicos', labelEn: 'public repositories' },
+  { value: '10', labelEs: 'laboratorios académicos', labelEn: 'academic labs' },
+  { value: '2020', labelEs: 'perfil activo desde', labelEn: 'profile active since' },
+];
+
+const githubRepos = [
+  { name: 'Proxmox', stack: 'Shell', href: 'https://github.com/iClexi/Proxmox' },
+  { name: 'Portfolio', stack: 'TypeScript', href: 'https://github.com/iClexi/Portfolio' },
+  { name: 'PPT-Del-terror', stack: 'TypeScript', href: 'https://github.com/iClexi/PPT-Del-terror' },
+  { name: 'cryptotoolbox', stack: 'TypeScript', href: 'https://github.com/iClexi/cryptotoolbox' },
+  { name: 'ritmohub', stack: 'TypeScript', href: 'https://github.com/iClexi/ritmohub' },
+  { name: 'COMANDOS-ESENCIALES', stack: 'Docs', href: 'https://github.com/iClexi/COMANDOS-ESENCIALES' },
+];
+
+const youtubeLabs = [
+  {
+    title: 'Escaner con Maltego a la empresa Transunion',
+    detail: 'OSINT y relacionamiento de entidades con Maltego.',
+    href: 'https://www.youtube.com/watch?v=MEwQtN0fzNo',
+  },
+  {
+    title: 'Practica Autenticacion utilizando Cookies de Session',
+    detail: 'Sesiones web, cookies y flujo de autenticacion.',
+    href: 'https://www.youtube.com/watch?v=zV8fuH7YfnQ',
+  },
+  {
+    title: 'Using Password Tools',
+    detail: 'Herramientas para auditoria y gestion de passwords.',
+    href: 'https://www.youtube.com/watch?v=Iwes_hzdyCE',
+  },
+  {
+    title: 'Analyze Automation Code',
+    detail: 'Revision de codigo orientado a automatizacion.',
+    href: 'https://www.youtube.com/watch?v=JFRa6TQrBhg',
+  },
+  {
+    title: 'Analyze Exploit Code',
+    detail: 'Lectura y analisis de codigo exploit en laboratorio.',
+    href: 'https://www.youtube.com/watch?v=HZ7jKXRSc30',
+  },
+  {
+    title: 'OWASP Web Security Testing Guide',
+    detail: 'Practica guiada con metodologia OWASP WSTG.',
+    href: 'https://www.youtube.com/watch?v=xnYwprIS7WA',
+  },
+  {
+    title: 'Cross Site Scripting',
+    detail: 'Laboratorio de XSS y validacion de riesgo web.',
+    href: 'https://www.youtube.com/watch?v=K0j7dVRLf_Q',
+  },
+  {
+    title: 'Injection Attacks',
+    detail: 'Practica de ataques de inyeccion y controles defensivos.',
+    href: 'https://www.youtube.com/watch?v=WTHwB0cD198',
+  },
+];
+
 const content = {
   es: {
     nav: ['Inicio', 'Sobre mí', 'Habilidades', 'Proyectos', 'Herramientas', 'Contacto'],
@@ -69,6 +130,14 @@ const content = {
     skillsTitle: 'Habilidades técnicas',
     projectsTitle: 'Proyectos',
     toolsTitle: 'Herramientas que uso',
+    publicProofTitle: 'Evidencia pública',
+    githubTitle: 'GitHub activo',
+    youtubeTitle: 'Canal técnico en YouTube',
+    youtubeText:
+      'Publico prácticas y laboratorios de ciberseguridad donde documento autenticación, XSS, injection attacks, OWASP WSTG, Maltego, análisis de exploits y automatización.',
+    githubText:
+      'Mantengo repositorios de aplicaciones, documentación de Proxmox, laboratorios académicos y proyectos web desplegados en servicios reales.',
+    labsTitle: 'Laboratorios documentados',
     studiesTitle: 'Certificaciones / estudios',
     contactTitle: 'Contacto',
     minecraftTitle: 'Servidor Minecraft',
@@ -100,6 +169,14 @@ const content = {
     skillsTitle: 'Technical skills',
     projectsTitle: 'Projects',
     toolsTitle: 'Tools I use',
+    publicProofTitle: 'Public proof',
+    githubTitle: 'Active GitHub',
+    youtubeTitle: 'Technical YouTube channel',
+    youtubeText:
+      'I publish cybersecurity practices and labs documenting authentication, XSS, injection attacks, OWASP WSTG, Maltego, exploit analysis and automation.',
+    githubText:
+      'I maintain repositories for applications, Proxmox documentation, academic labs and web projects deployed on real services.',
+    labsTitle: 'Documented labs',
     studiesTitle: 'Certifications / studies',
     contactTitle: 'Contact',
     minecraftTitle: 'Minecraft server',
@@ -500,6 +577,81 @@ export default function Home() {
               </a>
             );
           })}
+        </div>
+      </section>
+
+      <section id="public-proof" className="section-band public-proof">
+        <div className="section-heading animated-entry">
+          <p className="eyebrow">{copy.publicProofTitle}</p>
+          <h2>{language === 'es' ? 'Actividad real en línea' : 'Real online activity'}</h2>
+        </div>
+        <div className="evidence-grid">
+          <article className="evidence-card animated-entry">
+            <div className="card-title">
+              <FolderGit2 size={24} />
+              <h3>{copy.githubTitle}</h3>
+            </div>
+            <p>{copy.githubText}</p>
+            <div className="metrics-grid" aria-label={copy.githubTitle}>
+              {githubMetrics.map((metric) => (
+                <div className="metric-tile" key={metric.labelEs}>
+                  <strong>{metric.value}</strong>
+                  <span>{language === 'es' ? metric.labelEs : metric.labelEn}</span>
+                </div>
+              ))}
+            </div>
+            <div className="repo-list">
+              {githubRepos.map((repo) => (
+                <a className="repo-row" href={repo.href} target="_blank" rel="noreferrer" key={repo.href}>
+                  <span>{repo.name}</span>
+                  <strong>{repo.stack}</strong>
+                </a>
+              ))}
+            </div>
+            <a className="secondary-link compact-link" href="https://github.com/iClexi" target="_blank" rel="noreferrer">
+              <GitBranch size={18} />
+              GitHub
+              <ExternalLink size={16} />
+            </a>
+          </article>
+
+          <article className="evidence-card animated-entry">
+            <div className="card-title">
+              <MonitorPlay size={24} />
+              <h3>{copy.youtubeTitle}</h3>
+            </div>
+            <p>{copy.youtubeText}</p>
+            <a
+              className="secondary-link compact-link"
+              href="https://www.youtube.com/@iclexi2688/videos"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <MonitorPlay size={18} />
+              YouTube
+              <ExternalLink size={16} />
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section id="labs" className="section-band">
+        <div className="section-heading animated-entry">
+          <p className="eyebrow">{copy.labsTitle}</p>
+          <h2>{language === 'es' ? 'Prácticas publicadas' : 'Published practices'}</h2>
+        </div>
+        <div className="video-lab-grid">
+          {youtubeLabs.map((lab) => (
+            <a className="video-lab-card animated-entry" href={lab.href} target="_blank" rel="noreferrer" key={lab.href}>
+              <FileCode2 size={22} />
+              <h3>{lab.title}</h3>
+              <p>{lab.detail}</p>
+              <strong>
+                YouTube
+                <ExternalLink size={15} />
+              </strong>
+            </a>
+          ))}
         </div>
       </section>
 

@@ -220,6 +220,7 @@ h1 {
 
 .quick-links,
 .projects,
+.public-proof,
 .studies {
   background: #101219;
   border-top: 1px solid var(--line);
@@ -267,14 +268,18 @@ h1 {
 }
 
 .skill-grid,
-.project-grid {
+.project-grid,
+.evidence-grid,
+.video-lab-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
 .skill-card,
-.project-card {
+.project-card,
+.evidence-card,
+.video-lab-card {
   min-height: 100%;
   padding: 22px;
   background: var(--panel);
@@ -290,13 +295,17 @@ h1 {
 }
 
 .card-title svg,
-.project-card svg {
+.project-card svg,
+.evidence-card svg,
+.video-lab-card svg {
   color: var(--red);
   flex: 0 0 auto;
 }
 
 .skill-card h3,
-.project-card h3 {
+.project-card h3,
+.evidence-card h3,
+.video-lab-card h3 {
   margin: 0;
   font-size: 20px;
 }
@@ -310,7 +319,8 @@ h1 {
   line-height: 1.55;
 }
 
-.project-card {
+.project-card,
+.video-lab-card {
   display: grid;
   align-content: start;
   gap: 14px;
@@ -318,15 +328,100 @@ h1 {
 }
 
 .project-card:hover,
+.video-lab-card:hover,
 .site-tile:hover {
   border-color: var(--green);
   transform: translateY(-3px);
 }
 
-.project-card p {
+.project-card p,
+.evidence-card p,
+.video-lab-card p {
   margin: 0;
   color: var(--muted);
   line-height: 1.65;
+}
+
+.evidence-grid {
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  align-items: stretch;
+}
+
+.evidence-card {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metric-tile {
+  display: grid;
+  gap: 4px;
+  min-height: 88px;
+  padding: 14px;
+  background: #171a22;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.metric-tile strong {
+  color: var(--green);
+  font-size: 26px;
+  line-height: 1;
+}
+
+.metric-tile span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.repo-list {
+  display: grid;
+  gap: 8px;
+}
+
+.repo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 42px;
+  padding: 0 12px;
+  color: var(--muted);
+  background: #171a22;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.repo-row span {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.repo-row strong {
+  color: var(--amber);
+  font-size: 13px;
+}
+
+.compact-link {
+  width: fit-content;
+}
+
+.video-lab-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.video-lab-card strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
 }
 
 .tool-cloud {
@@ -429,7 +524,9 @@ h1 {
   }
 
   .skill-grid,
-  .project-grid {
+  .project-grid,
+  .evidence-grid,
+  .video-lab-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -484,7 +581,10 @@ h1 {
 
   .link-grid,
   .skill-grid,
-  .project-grid {
+  .project-grid,
+  .evidence-grid,
+  .video-lab-grid,
+  .metrics-grid {
     grid-template-columns: 1fr;
   }
 
@@ -497,6 +597,10 @@ h1 {
   .primary-link,
   .secondary-link,
   .identity-chip {
+    width: 100%;
+  }
+
+  .compact-link {
     width: 100%;
   }
 
