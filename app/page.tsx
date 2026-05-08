@@ -555,19 +555,15 @@ export default function Home() {
         <div className="cert-grid">
           {certifications.map((cert) => (
             <article className="cert-card animated-entry" key={cert.name}>
-              <div
-                className="cert-logo-wrap"
-                style={{ maxWidth: '230px', width: '100%', height: '132px', background: '#fff', padding: '10px' }}
-              >
+              <div className="cert-visual">
                 <img
                   className="cert-logo-image"
                   src={cert.logo}
                   alt={cert.logoAlt}
                   loading="lazy"
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </div>
-              <div>
+              <div className="cert-copy">
                 <p className="cert-issuer">{cert.issuer}</p>
                 <h3>{cert.name}</h3>
                 <p>{cert.detail}</p>
