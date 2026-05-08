@@ -20,6 +20,19 @@ html {
   scroll-padding-top: 82px;
 }
 
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -59,7 +72,6 @@ main {
   padding: 0 6vw;
   background: rgba(11, 13, 18, 0.86);
   border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(14px);
 }
 
 .brand,
@@ -210,8 +222,8 @@ h1 {
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 520px;
-  padding: 32px 24px;
+  min-height: 620px;
+  padding: 52px 40px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: linear-gradient(145deg, rgba(21, 24, 32, 0.92), rgba(29, 33, 43, 0.72));
@@ -228,12 +240,12 @@ h1 {
 }
 
 .hero-orbit::before {
-  width: 80%;
+  width: 86%;
   aspect-ratio: 1;
 }
 
 .hero-orbit::after {
-  width: 58%;
+  width: 64%;
   aspect-ratio: 1;
   animation-duration: 12s;
   animation-direction: reverse;
@@ -241,10 +253,10 @@ h1 {
 
 .orbit-core {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: grid;
   place-items: center;
-  width: 164px;
+  width: 194px;
   aspect-ratio: 1;
   color: var(--green);
   background: #0c1017;
@@ -252,24 +264,6 @@ h1 {
   border-radius: 50%;
   box-shadow: 0 26px 72px rgba(0, 0, 0, 0.4);
 }
-
-.hero-orbit span {
-  position: absolute;
-  z-index: 3;
-  min-height: 38px;
-  padding: 10px 12px;
-  color: var(--text);
-  background: #10141d;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 900;
-}
-
-.hero-orbit span:nth-of-type(1) { top: 18%; left: 10%; }
-.hero-orbit span:nth-of-type(2) { top: 24%; right: 8%; }
-.hero-orbit span:nth-of-type(3) { bottom: 18%; left: 13%; }
-.hero-orbit span:nth-of-type(4) { right: 10%; bottom: 23%; }
 
 @keyframes orbit-spin {
   from { transform: rotate(0deg); }
@@ -716,11 +710,6 @@ h1 {
 .youtube-group {
   display: grid;
   gap: 16px;
-  animation: card-float 5.2s ease-in-out infinite;
-}
-
-.youtube-group:nth-child(even) {
-  animation-duration: 6.1s;
 }
 
 .video-list {
@@ -825,38 +814,34 @@ h1 {
   box-shadow: 0 14px 24px rgba(39, 224, 163, 0.12);
 }
 
-.hero-orbit {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: center;
-  flex-direction: column;
-}
-.hero-orbit .orbit-core {
-  width: 120px;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #0b1220, #1b2a40);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-}
 .hero-avatar {
-  width: 112px;
-  height: 112px;
+  width: 142px;
+  height: 142px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid rgba(255,255,255,0.08);
+  border: 4px solid rgba(255, 255, 255, 0.08);
 }
 .hero-orbit-logos {
-  display: flex;
-  width: min(100%, 480px);
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  --orbit-radius: 194px;
+  pointer-events: none;
+  transform-origin: center;
+  animation: orbit-revolve 42s linear infinite;
+  will-change: transform;
+}
+
+.hero-orbit-node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  transform-origin: center;
+  will-change: transform;
 }
 
 .hero-logo-shell,
@@ -868,13 +853,19 @@ h1 {
 }
 
 .hero-logo-shell {
-  width: 60px;
-  height: 60px;
-  padding: 8px;
-  border-radius: 16px;
+  width: 72px;
+  height: 72px;
+  padding: 10px;
+  border-radius: 20px;
   background: linear-gradient(180deg, #f8fafc, #e2e8f0);
   border: 1px solid rgba(148, 163, 184, 0.35);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  backface-visibility: hidden;
+}
+
+@keyframes orbit-revolve {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .hero-logo-mark,
@@ -921,19 +912,18 @@ h1 {
 
 .minecraft {
   display: grid;
-  grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(380px, 1.25fr) minmax(0, 0.75fr);
   gap: 28px;
   align-items: stretch;
 }
 
 .minecraft-visual {
   position: relative;
-  min-height: 320px;
+  min-height: 460px;
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
-  background:
-    linear-gradient(180deg, #75b8ff 0 48%, #6fb75a 48% 64%, #8b5a2b 64% 100%);
+  background: #101219;
 }
 
 .minecraft-art {
@@ -942,20 +932,8 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.minecraft-sky {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  gap: 18px;
-  color: #06110d;
-  font-size: clamp(28px, 4vw, 54px);
-  font-weight: 950;
-  text-align: center;
-  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.35);
-  background: linear-gradient(180deg, rgba(255,255,255,0.0) 0%, rgba(8, 16, 26, 0.08) 100%);
+  object-position: center;
+  filter: none;
 }
 
 .minecraft-copy {
@@ -1018,7 +996,6 @@ h1 {
   place-items: center;
   padding: 20px;
   background: rgba(3, 5, 8, 0.76);
-  backdrop-filter: blur(10px);
 }
 
 .service-modal {
@@ -1080,18 +1057,84 @@ h1 {
 
 .animated-entry {
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 480ms ease, transform 480ms ease;
+  will-change: opacity, transform;
 }
 
-.animated-entry.is-visible {
+.animated-entry[data-animation="slideUp"] {
+  transform: translateY(20px);
+}
+
+.animated-entry[data-animation="scaleIn"] {
+  transform: scale(0.9);
+}
+
+.animated-entry[data-animation="rotateIn"] {
+  transform: rotate(-8deg);
+}
+
+/* Hover effects for cards */
+.project-card,
+.cert-card,
+.service-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before,
+.cert-card::before,
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(39, 224, 163, 0.1) 50%, transparent 70%);
+  opacity: 0;
+  transition: opacity 400ms ease, transform 400ms ease;
+  transform: translateX(-100%);
+}
+
+.project-card:hover::before,
+.cert-card:hover::before,
+.service-card:hover::before {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(100%);
 }
 
-@keyframes card-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
+.site-tile {
+  position: relative;
+  transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.site-tile:hover {
+  box-shadow: 0 20px 50px rgba(39, 224, 163, 0.2);
+  transform: translateY(-6px) scale(1.02);
+}
+
+.tool-pill {
+  position: relative;
+  transition: all 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tool-pill:hover {
+  box-shadow: 0 12px 24px rgba(39, 224, 163, 0.25);
+  transform: translateY(-3px) scale(1.05);
+  border-color: var(--green);
+}
+
+/* Logo orbit smooth rotation */
+.hero-orbit-logos {
+  animation: orbit-revolve 45s linear infinite;
+}
+
+.hero-orbit-logos:hover {
+  animation-play-state: paused;
+}
+
+.hero-orbit-node {
+  transition: transform 300ms ease;
+}
+
+.hero-orbit-node:hover {
+  filter: drop-shadow(0 0 12px rgba(39, 224, 163, 0.4));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1134,6 +1177,11 @@ h1 {
 
   .service-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hero-orbit-logos {
+    --orbit-radius: 172px;
+    animation-duration: 34s;
   }
 }
 
@@ -1224,24 +1272,36 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .minecraft-visual {
+    min-height: 360px;
+  }
+
   .hero-orbit {
-    min-height: 380px;
+    min-height: 420px;
     width: 100%;
     max-width: calc(100vw - 36px);
   }
 
-  .hero-orbit span {
-    font-size: 11px;
-    max-width: 118px;
-    white-space: normal;
-    text-align: center;
+  .hero-orbit-logos {
+    --orbit-radius: 124px;
+    animation-duration: 28s;
   }
 
-  .hero-orbit span:nth-of-type(1) { top: 16%; left: 12px; }
-  .hero-orbit span:nth-of-type(3) { bottom: 16%; left: 12px; }
-  .hero-orbit span:nth-of-type(2),
-  .hero-orbit span:nth-of-type(4) {
-    display: none;
+  .hero-orbit-node {
+    width: 54px;
+    height: 54px;
+  }
+
+  .hero-logo-shell {
+    width: 54px;
+    height: 54px;
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  .hero-avatar {
+    width: 112px;
+    height: 112px;
   }
 }
 
