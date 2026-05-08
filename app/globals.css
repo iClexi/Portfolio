@@ -210,7 +210,8 @@ h1 {
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 440px;
+  min-height: 520px;
+  padding: 32px 24px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: linear-gradient(145deg, rgba(21, 24, 32, 0.92), rgba(29, 33, 43, 0.72));
@@ -227,12 +228,12 @@ h1 {
 }
 
 .hero-orbit::before {
-  width: 74%;
+  width: 80%;
   aspect-ratio: 1;
 }
 
 .hero-orbit::after {
-  width: 52%;
+  width: 58%;
   aspect-ratio: 1;
   animation-duration: 12s;
   animation-direction: reverse;
@@ -243,13 +244,13 @@ h1 {
   z-index: 2;
   display: grid;
   place-items: center;
-  width: 132px;
+  width: 164px;
   aspect-ratio: 1;
   color: var(--green);
   background: #0c1017;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.38);
+  border-radius: 50%;
+  box-shadow: 0 26px 72px rgba(0, 0, 0, 0.4);
 }
 
 .hero-orbit span {
@@ -842,16 +843,18 @@ h1 {
   box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 .hero-avatar {
-  width: 88px;
-  height: 88px;
+  width: 112px;
+  height: 112px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid rgba(255,255,255,0.06);
+  border: 4px solid rgba(255,255,255,0.08);
 }
 .hero-orbit-logos {
   display: flex;
+  width: min(100%, 480px);
+  flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 18px;
   align-items: center;
   justify-content: center;
 }
@@ -865,10 +868,10 @@ h1 {
 }
 
 .hero-logo-shell {
-  width: 52px;
-  height: 52px;
-  padding: 6px;
-  border-radius: 14px;
+  width: 60px;
+  height: 60px;
+  padding: 8px;
+  border-radius: 16px;
   background: linear-gradient(180deg, #f8fafc, #e2e8f0);
   border: 1px solid rgba(148, 163, 184, 0.35);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
@@ -1222,7 +1225,7 @@ h1 {
   }
 
   .hero-orbit {
-    min-height: 320px;
+    min-height: 380px;
     width: 100%;
     max-width: calc(100vw - 36px);
   }

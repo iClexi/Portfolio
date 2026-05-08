@@ -494,7 +494,7 @@ export default function Home() {
           </div>
           <div className="hero-orbit-logos" role="img" aria-label="Tecnologías">
             {heroOrbitTechs.map((tech) => (
-              <span
+              <div
                 className="hero-logo-shell"
                 key={tech.label}
               >
@@ -511,7 +511,7 @@ export default function Home() {
                     }}
                   />
                 )}
-              </span>
+              </div>
             ))}
           </div>
         </div>
