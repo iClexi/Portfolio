@@ -77,27 +77,34 @@ const serviceLinks: ServiceLink[] = [
   },
 ];
 
+const heroOrbitTechs = [
+  { label: 'Proxmox', logo: '/logos/proxmox.svg' },
+  { label: 'Docker', logo: '/logos/docker.svg' },
+  { label: 'Wazuh', logo: '/logos/wazuh.ico' },
+  { label: 'PostgreSQL', logo: '/logos/postgresql.svg' },
+] as const;
+
 const toolStack = [
-  ['Linux', Terminal],
-  ['Ubuntu Server', Server],
-  ['Debian', Server],
-  ['Kali Linux', ShieldCheck],
-  ['Proxmox', Boxes],
-  ['Docker', Boxes],
-  ['Cloudflare Tunnel', Cloud],
-  ['TrueNAS', HardDrive],
-  ['Nextcloud', Cloud],
-  ['Wazuh', ShieldCheck],
-  ['OWASP ZAP', ShieldCheck],
-  ['SonarQube', Code2],
-  ['Nmap', Network],
-  ['Burp Suite', ShieldCheck],
-  ['Cisco Packet Tracer', Network],
-  ['PostgreSQL', Database],
-  ['Next.js', Code2],
-  ['React', Code2],
-  ['TypeScript', FileCode2],
-  ['GitHub', GitBranch],
+  { label: 'Linux', logo: '/logos/linux.svg' },
+  { label: 'Ubuntu Server', logo: '/logos/ubuntu.svg' },
+  { label: 'Debian', logo: '/logos/debian.svg' },
+  { label: 'Kali Linux', logo: '/logos/kali-linux.svg' },
+  { label: 'Proxmox', logo: '/logos/proxmox.svg' },
+  { label: 'Docker', logo: '/logos/docker.svg' },
+  { label: 'Cloudflare Tunnel', logo: '/logos/cloudflare.svg' },
+  { label: 'TrueNAS', logo: '/logos/truenas.svg' },
+  { label: 'Nextcloud', logo: '/logos/nextcloud.svg' },
+  { label: 'Wazuh', logo: '/logos/wazuh.ico' },
+  { label: 'OWASP ZAP', logo: '/logos/owasp.svg' },
+  { label: 'SonarQube', logo: '/logos/sonarqube.svg' },
+  { label: 'Nmap', logo: '/logos/nmap.png' },
+  { label: 'Burp Suite', logo: '/logos/burpsuite.svg' },
+  { label: 'Cisco Packet Tracer', logo: '/logos/cisco.svg' },
+  { label: 'PostgreSQL', logo: '/logos/postgresql.svg' },
+  { label: 'Next.js', logo: '/logos/nextdotjs.svg' },
+  { label: 'React', logo: '/logos/react.svg' },
+  { label: 'TypeScript', logo: '/logos/typescript.svg' },
+  { label: 'GitHub', logo: '/logos/github.svg' },
 ] as const;
 
 const certifications = [
@@ -470,10 +477,9 @@ export default function Home() {
             <img src="/logos/portrait.svg" alt="Avatar" className="hero-avatar" />
           </div>
           <div className="hero-orbit-logos" role="img" aria-label="Tecnologías">
-            <img src="/logos/proxmox.svg" alt="Proxmox logo" className="hero-logo" />
-            <img src="/logos/docker.svg" alt="Docker logo" className="hero-logo" />
-            <img src="/logos/wazuh.svg" alt="Wazuh logo" className="hero-logo" />
-            <img src="/logos/postgresql.svg" alt="PostgreSQL logo" className="hero-logo" />
+            {heroOrbitTechs.map((tech) => (
+              <img key={tech.label} src={tech.logo} alt={tech.label + ' logo'} className="hero-logo" />
+            ))}
           </div>
         </div>
       </section>
@@ -640,22 +646,19 @@ export default function Home() {
           <h2>{language === 'es' ? 'Tecnologías que uso' : 'Technologies I use'}</h2>
         </div>
         <div className="tool-cloud">
-          {toolStack.map(([tool]) => {
-            const slug = String(tool).toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-            return (
-              <span className="tool-pill animated-entry" key={tool}>
-                <img src={'/logos/' + slug + '.svg'} alt={tool + ' logo'} className="tool-logo" />
-                <span className="tool-label">{tool}</span>
-              </span>
-            );
-          })}
+          {toolStack.map((tool) => (
+            <span className="tool-pill animated-entry" key={tool.label}>
+              <img src={tool.logo} alt={tool.label + ' logo'} className="tool-logo" />
+              <span className="tool-label">{tool.label}</span>
+            </span>
+          ))}
         </div>
       </section>
 
       <section id="minecraft" className="section-band minecraft">
         <div className="minecraft-visual animated-entry">
+          <img src="/logos/minecraft-server.svg" alt="Ilustración del servidor Minecraft" className="minecraft-art" />
           <div className="minecraft-sky">
-            <Gamepad2 size={52} />
             <span>mc.iclexi.tech</span>
           </div>
         </div>
