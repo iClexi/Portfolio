@@ -443,6 +443,16 @@ h1 {
   overflow: hidden;
 }
 
+.service-card h3 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.service-card p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
 .project-card:hover,
 .video-lab-card:hover,
 .site-tile:hover {
