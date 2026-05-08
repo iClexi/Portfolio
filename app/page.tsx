@@ -375,6 +375,16 @@ export default function Home() {
   }, [selectedVideoCategory]);
 
   useEffect(() => {
+    const raf = window.requestAnimationFrame(() => {
+      document.querySelectorAll('#youtube .youtube-group, #youtube .video-row').forEach((node) => {
+        node.classList.add('is-visible');
+      });
+    });
+
+    return () => window.cancelAnimationFrame(raf);
+  }, [selectedVideoCategory]);
+
+  useEffect(() => {
     if (selectedVideoCategory !== 'all' && !videoCategories.includes(selectedVideoCategory)) {
       setSelectedVideoCategory('all');
     }
