@@ -479,7 +479,7 @@ h1 {
 }
 
 .service-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .service-card svg {
@@ -487,7 +487,7 @@ h1 {
 }
 
 .cert-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .cert-card {
@@ -1320,5 +1320,101 @@ h1 {
   .hero-copy p,
   .subtitle {
     max-width: calc(100vw - 36px);
+  }
+}
+
+/* Image fallback handling */
+img[src$=".svg"],
+img[src$=".ico"],
+img[src$=".png"] {
+  display: block;
+  background: var(--panel);
+  border-radius: 4px;
+}
+
+img:not([src="/minecraft/server-rack.png"]) {
+  background: var(--panel);
+}
+
+.hero-logo,
+.tool-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero-avatar {
+  background: var(--panel);
+}
+
+/* Ensure cards don't break on mobile */
+@media (max-width: 500px) {
+  .cert-grid,
+  .project-grid,
+  .service-grid,
+  .evidence-grid,
+  .video-lab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-grid,
+  .link-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cert-card,
+  .project-card,
+  .service-card,
+  .evidence-card,
+  .video-lab-card {
+    min-height: auto;
+  }
+
+  .section-band {
+    padding: 40px 16px;
+  }
+
+  .hero-orbit {
+    min-height: auto;
+    max-width: 100%;
+  }
+}
+
+/* Extra responsive for very small screens */
+@media (max-width: 375px) {
+  .section-band {
+    padding: 32px 14px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .hero h2,
+  .section-heading h2,
+  .minecraft h2,
+  .footer h2 {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .topbar {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .skill-grid,
+  .link-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .primary-link,
+  .secondary-link {
+    min-height: 40px;
+    font-size: 14px;
+    padding: 0 12px;
   }
 }
