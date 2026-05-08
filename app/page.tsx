@@ -336,6 +336,21 @@ export default function Home() {
     const selected = videosByCategory[selectedVideoCategory];
     return selected ? [[selectedVideoCategory, selected] as const] : Object.entries(videosByCategory);
   }, [selectedVideoCategory, videosByCategory]);
+  const categoryMenuItems = useMemo(
+    () => [
+      {
+        value: 'all',
+        label: language === 'es' ? 'Todos los videos' : 'All videos',
+        count: youtubeVideos.length,
+      },
+      ...videoCategories.map((category) => ({
+        value: category,
+        label: category,
+        count: videosByCategory[category].length,
+      })),
+    ],
+    [language, videoCategories, videosByCategory],
+  );
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -451,11 +466,15 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-orbit animated-entry" aria-hidden="true">
-          <div className="orbit-core"><ShieldCheck size={54} /></div>
-          <span>Proxmox</span>
-          <span>Docker</span>
-          <span>Wazuh</span>
-          <span>PostgreSQL</span>
+          <div className="orbit-core">
+            <img src="/logos/portrait.svg" alt="Avatar" className="hero-avatar" />
+          </div>
+          <div className="hero-orbit-logos" role="img" aria-label="Tecnologías">
+            <img src="/logos/proxmox.svg" alt="Proxmox logo" className="hero-logo" />
+            <img src="/logos/docker.svg" alt="Docker logo" className="hero-logo" />
+            <img src="/logos/wazuh.svg" alt="Wazuh logo" className="hero-logo" />
+            <img src="/logos/postgresql.svg" alt="PostgreSQL logo" className="hero-logo" />
+          </div>
         </div>
       </section>
 
@@ -568,48 +587,50 @@ export default function Home() {
           <h2>{language === 'es' ? 'Canal técnico en YouTube' : 'Technical YouTube channel'}</h2>
           <p className="section-text">{language === 'es' ? 'Organicé tus videos por área para que se vea el progreso real: web/API, ofensiva, Linux, redes, Windows Server, DevOps y música.' : 'Videos organized by area to show real progress across web/API, offensive security, Linux, networking, Windows Server, DevOps and music.'}</p>
         </div>
-        <div className="youtube-menu animated-entry">
-          <div className="youtube-filter-controls">
-            <label className="youtube-filter-label" htmlFor="youtube-category-select">
-              {language === 'es' ? 'Menú de categoría (guardado)' : 'Saved category menu'}
-            </label>
-            <select
-              id="youtube-category-select"
-              className="youtube-filter-select"
-              value={selectedVideoCategory}
-              onChange={(event) => setSelectedVideoCategory(event.target.value)}
-            >
-              <option value="all">{language === 'es' ? 'Todos los videos' : 'All videos'} · {youtubeVideos.length}</option>
-              {videoCategories.map((category) => (
-                <option value={category} key={category}>
-                  {category} · {videosByCategory[category].length}
-                </option>
+        <div className="youtube-shell">
+          <aside className="youtube-menu animated-entry">
+            <p className="youtube-filter-label">
+              {language === 'es' ? 'Menú de categorías' : 'Category menu'}
+            </p>
+            <div className="youtube-category-buttons" role="tablist" aria-label="Categorías de YouTube">
+              {categoryMenuItems.map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  role="tab"
+                  aria-selected={selectedVideoCategory === item.value}
+                  className={`youtube-category-button ${selectedVideoCategory === item.value ? 'active' : ''}`}
+                  onClick={() => setSelectedVideoCategory(item.value)}
+                >
+                  <span>{item.label}</span>
+                  <strong>{item.count}</strong>
+                </button>
               ))}
-            </select>
+            </div>
             <p className="youtube-filter-hint">
               {language === 'es'
-                ? 'Tu selección se guarda automáticamente para la próxima visita.'
-                : 'Your selection is saved automatically for your next visit.'}
+                ? 'Esta selección se guarda automáticamente para tu próxima visita.'
+                : 'This selection is automatically saved for your next visit.'}
             </p>
+          </aside>
+          <div className="youtube-layout">
+            {filteredVideoGroups.map(([category, videos]) => (
+              <article className="youtube-group animated-entry" key={category}>
+                <div className="card-title">
+                  <MonitorPlay size={24} />
+                  <h3>{category}</h3>
+                </div>
+                <div className="video-list">
+                  {videos.map((video) => (
+                    <a className="video-row" href={`https://www.youtube.com/@iclexi2688/search?query=${encodeURIComponent(video[1])}`} target="_blank" rel="noreferrer" key={video[1]}>
+                      <span>{video[1]}</span>
+                      <strong>{video[2]} · {video[3]}</strong>
+                    </a>
+                  ))}
+                </div>
+              </article>
+            ))}
           </div>
-        </div>
-        <div className="youtube-layout">
-          {filteredVideoGroups.map(([category, videos]) => (
-            <article className="youtube-group animated-entry" key={category}>
-              <div className="card-title">
-                <MonitorPlay size={24} />
-                <h3>{category}</h3>
-              </div>
-              <div className="video-list">
-                {videos.map((video) => (
-                  <a className="video-row" href={`https://www.youtube.com/@iclexi2688/search?query=${encodeURIComponent(video[1])}`} target="_blank" rel="noreferrer" key={video[1]}>
-                    <span>{video[1]}</span>
-                    <strong>{video[2]} · {video[3]}</strong>
-                  </a>
-                ))}
-              </div>
-            </article>
-          ))}
         </div>
       </section>
 
@@ -619,12 +640,15 @@ export default function Home() {
           <h2>{language === 'es' ? 'Tecnologías que uso' : 'Technologies I use'}</h2>
         </div>
         <div className="tool-cloud">
-          {toolStack.map(([tool, Icon]) => (
-            <span className="tool-pill animated-entry" key={tool}>
-              <Icon size={16} />
-              {tool}
-            </span>
-          ))}
+          {toolStack.map(([tool]) => {
+            const slug = String(tool).toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            return (
+              <span className="tool-pill animated-entry" key={tool}>
+                <img src={'/logos/' + slug + '.svg'} alt={tool + ' logo'} className="tool-logo" />
+                <span className="tool-label">{tool}</span>
+              </span>
+            );
+          })}
         </div>
       </section>
 

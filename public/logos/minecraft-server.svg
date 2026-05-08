@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120">
+  <!-- simple pixel-art style block row to represent a Minecraft server -->
+  <rect width="240" height="120" fill="#76b852" />
+  <g transform="translate(20,14)">
+    <!-- 8x6 pixel grid blocks -->
+    <rect x="0" y="0" width="24" height="24" fill="#2e6b2e" />
+    <rect x="24" y="0" width="24" height="24" fill="#3b7f3b" />
+    <rect x="48" y="0" width="24" height="24" fill="#2e6b2e" />
+    <rect x="72" y="0" width="24" height="24" fill="#3b7f3b" />
+    <rect x="96" y="0" width="24" height="24" fill="#2e6b2e" />
+    <rect x="120" y="0" width="24" height="24" fill="#3b7f3b" />
+    <rect x="144" y="0" width="24" height="24" fill="#2e6b2e" />
+    <rect x="168" y="0" width="24" height="24" fill="#3b7f3b" />
+    <rect x="0" y="24" width="24" height="24" fill="#3b7f3b" />
+    <rect x="24" y="24" width="24" height="24" fill="#2e6b2e" />
+    <rect x="48" y="24" width="24" height="24" fill="#3b7f3b" />
+    <rect x="72" y="24" width="24" height="24" fill="#2e6b2e" />
+    <rect x="96" y="24" width="24" height="24" fill="#3b7f3b" />
+    <rect x="120" y="24" width="24" height="24" fill="#2e6b2e" />
+    <rect x="144" y="24" width="24" height="24" fill="#3b7f3b" />
+    <rect x="168" y="24" width="24" height="24" fill="#2e6b2e" />
+    <rect x="0" y="48" width="24" height="24" fill="#2e6b2e" />
+    <rect x="24" y="48" width="24" height="24" fill="#3b7f3b" />
+    <rect x="48" y="48" width="24" height="24" fill="#2e6b2e" />
+    <rect x="72" y="48" width="24" height="24" fill="#3b7f3b" />
+    <rect x="96" y="48" width="24" height="24" fill="#2e6b2e" />
+    <rect x="120" y="48" width="24" height="24" fill="#3b7f3b" />
+    <rect x="144" y="48" width="24" height="24" fill="#2e6b2e" />
+    <rect x="168" y="48" width="24" height="24" fill="#3b7f3b" />
+  </g>
+  <text x="50%" y="105" font-size="14" fill="#043205" font-family="Inter, Arial, sans-serif" text-anchor="middle">Servidor Minecraft (ilustración)</text>
+</svg>

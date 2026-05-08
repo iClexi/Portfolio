@@ -603,37 +603,25 @@ h1 {
   gap: 18px;
 }
 
+.youtube-shell {
+  display: grid;
+  grid-template-columns: minmax(240px, 290px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
 .youtube-menu {
   display: grid;
   gap: 12px;
-  margin-bottom: 16px;
-}
-
-.youtube-menu-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 42px;
-  width: fit-content;
-  padding: 0 14px;
-  color: var(--text);
+  padding: 16px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 180ms ease, transform 180ms ease;
 }
 
-.youtube-menu-toggle:hover {
-  border-color: var(--green);
-  transform: translateY(-1px);
-}
-
-.youtube-filter-controls {
+.youtube-category-buttons {
   display: grid;
   gap: 8px;
-  max-width: 420px;
 }
 
 .youtube-filter-label {
@@ -645,13 +633,45 @@ h1 {
   letter-spacing: 0.06em;
 }
 
-.youtube-filter-select {
+.youtube-category-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   min-height: 42px;
+  width: 100%;
   padding: 0 12px;
-  color: var(--text);
+  color: var(--muted);
   background: #171a22;
   border: 1px solid var(--line);
   border-radius: 8px;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.youtube-category-button:hover {
+  border-color: var(--cyan);
+  color: var(--text);
+}
+
+.youtube-category-button span {
+  text-align: left;
+  line-height: 1.25;
+}
+
+.youtube-category-button strong {
+  color: var(--amber);
+  font-size: 12px;
+}
+
+.youtube-category-button.active {
+  color: #06110d;
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.youtube-category-button.active strong {
+  color: #052317;
 }
 
 .youtube-filter-hint {
@@ -745,6 +765,62 @@ h1 {
   border-color: var(--green);
   transform: translateY(-2px);
   box-shadow: 0 14px 24px rgba(39, 224, 163, 0.12);
+}
+
+.hero-orbit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  flex-direction: column;
+}
+.hero-orbit .orbit-core {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0b1220, #1b2a40);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+.hero-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,0.06);
+}
+.hero-orbit-logos {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.hero-logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+  background: #0f1724;
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.tool-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: inline-block;
+  border-radius: 4px;
+  background: #0f1724;
+  padding: 3px;
+}
+.tool-label {
+  margin-left: 8px;
+  font-weight: 700;
 }
 
 .minecraft {
@@ -935,7 +1011,8 @@ h1 {
   .hero,
   .about-grid,
   .footer-content,
-  .minecraft {
+  .minecraft,
+  .youtube-shell {
     grid-template-columns: 1fr;
   }
 
@@ -1009,6 +1086,14 @@ h1 {
   .service-grid,
   .cert-grid,
   .video-list {
+    grid-template-columns: 1fr;
+  }
+
+  .youtube-menu {
+    position: static;
+  }
+
+  .youtube-category-buttons {
     grid-template-columns: 1fr;
   }
 
