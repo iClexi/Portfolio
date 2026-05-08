@@ -37,6 +37,12 @@ type ServiceLink = {
   bulletsEs: string[];
   bulletsEn: string[];
 };
+type LogoItem = {
+  label: string;
+  logo: string;
+  color: string;
+  render?: 'mask' | 'image';
+};
 
 const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/iClexi', icon: GitBranch },
@@ -77,35 +83,35 @@ const serviceLinks: ServiceLink[] = [
   },
 ];
 
-const heroOrbitTechs = [
-  { label: 'Proxmox', logo: '/logos/proxmox.svg' },
-  { label: 'Docker', logo: '/logos/docker.svg' },
-  { label: 'Wazuh', logo: '/logos/wazuh.ico' },
-  { label: 'PostgreSQL', logo: '/logos/postgresql.svg' },
-] as const;
+const heroOrbitTechs: LogoItem[] = [
+  { label: 'Proxmox', logo: '/logos/proxmox.svg', color: '#E57000' },
+  { label: 'Docker', logo: '/logos/docker.svg', color: '#2496ED' },
+  { label: 'Wazuh', logo: '/logos/wazuh.ico', color: '#00A3E0', render: 'image' },
+  { label: 'PostgreSQL', logo: '/logos/postgresql.svg', color: '#336791' },
+];
 
-const toolStack = [
-  { label: 'Linux', logo: '/logos/linux.svg' },
-  { label: 'Ubuntu Server', logo: '/logos/ubuntu.svg' },
-  { label: 'Debian', logo: '/logos/debian.svg' },
-  { label: 'Kali Linux', logo: '/logos/kali-linux.svg' },
-  { label: 'Proxmox', logo: '/logos/proxmox.svg' },
-  { label: 'Docker', logo: '/logos/docker.svg' },
-  { label: 'Cloudflare Tunnel', logo: '/logos/cloudflare.svg' },
-  { label: 'TrueNAS', logo: '/logos/truenas.svg' },
-  { label: 'Nextcloud', logo: '/logos/nextcloud.svg' },
-  { label: 'Wazuh', logo: '/logos/wazuh.ico' },
-  { label: 'OWASP ZAP', logo: '/logos/owasp.svg' },
-  { label: 'SonarQube', logo: '/logos/sonarqube.svg' },
-  { label: 'Nmap', logo: '/logos/nmap.png' },
-  { label: 'Burp Suite', logo: '/logos/burpsuite.svg' },
-  { label: 'Cisco Packet Tracer', logo: '/logos/cisco.svg' },
-  { label: 'PostgreSQL', logo: '/logos/postgresql.svg' },
-  { label: 'Next.js', logo: '/logos/nextdotjs.svg' },
-  { label: 'React', logo: '/logos/react.svg' },
-  { label: 'TypeScript', logo: '/logos/typescript.svg' },
-  { label: 'GitHub', logo: '/logos/github.svg' },
-] as const;
+const toolStack: LogoItem[] = [
+  { label: 'Linux', logo: '/logos/linux.svg', color: '#FCC624' },
+  { label: 'Ubuntu Server', logo: '/logos/ubuntu.svg', color: '#E95420' },
+  { label: 'Debian', logo: '/logos/debian.svg', color: '#A81D33' },
+  { label: 'Kali Linux', logo: '/logos/kali-linux.svg', color: '#557C94' },
+  { label: 'Proxmox', logo: '/logos/proxmox.svg', color: '#E57000' },
+  { label: 'Docker', logo: '/logos/docker.svg', color: '#2496ED' },
+  { label: 'Cloudflare Tunnel', logo: '/logos/cloudflare.svg', color: '#F38020' },
+  { label: 'TrueNAS', logo: '/logos/truenas.svg', color: '#0095D5' },
+  { label: 'Nextcloud', logo: '/logos/nextcloud.svg', color: '#0082C9' },
+  { label: 'Wazuh', logo: '/logos/wazuh.ico', color: '#00A3E0', render: 'image' },
+  { label: 'OWASP ZAP', logo: '/logos/owasp.svg', color: '#5C8728' },
+  { label: 'SonarQube', logo: '/logos/sonarqube.svg', color: '#4E9BCD' },
+  { label: 'Nmap', logo: '/logos/nmap.png', color: '#468C00', render: 'image' },
+  { label: 'Burp Suite', logo: '/logos/burpsuite.svg', color: '#FF6633' },
+  { label: 'Cisco Packet Tracer', logo: '/logos/cisco.svg', color: '#1BA0D7' },
+  { label: 'PostgreSQL', logo: '/logos/postgresql.svg', color: '#336791' },
+  { label: 'Next.js', logo: '/logos/nextdotjs.svg', color: '#000000' },
+  { label: 'React', logo: '/logos/react.svg', color: '#61DAFB' },
+  { label: 'TypeScript', logo: '/logos/typescript.svg', color: '#3178C6' },
+  { label: 'GitHub', logo: '/logos/github.svg', color: '#181717' },
+];
 
 const certifications = [
   {
@@ -488,8 +494,23 @@ export default function Home() {
           </div>
           <div className="hero-orbit-logos" role="img" aria-label="Tecnologías">
             {heroOrbitTechs.map((tech) => (
-              <span className="hero-logo-shell" key={tech.label}>
-                <img src={tech.logo} alt={tech.label + ' logo'} className="hero-logo" />
+              <span
+                className="hero-logo-shell"
+                key={tech.label}
+              >
+                {tech.render === 'image' ? (
+                  <img src={tech.logo} alt={tech.label + ' logo'} className="hero-logo" />
+                ) : (
+                  <span
+                    className="hero-logo-mark"
+                    aria-hidden="true"
+                    style={{
+                      backgroundColor: tech.color,
+                      WebkitMaskImage: `url(${tech.logo})`,
+                      maskImage: `url(${tech.logo})`,
+                    }}
+                  />
+                )}
               </span>
             ))}
           </div>
@@ -667,7 +688,19 @@ export default function Home() {
           {toolStack.map((tool) => (
             <span className="tool-pill animated-entry" key={tool.label}>
               <span className="tool-logo-shell">
-                <img src={tool.logo} alt={tool.label + ' logo'} className="tool-logo" />
+                {tool.render === 'image' ? (
+                  <img src={tool.logo} alt={tool.label + ' logo'} className="tool-logo" />
+                ) : (
+                  <span
+                    className="tool-logo-mark"
+                    aria-hidden="true"
+                    style={{
+                      backgroundColor: tool.color,
+                      WebkitMaskImage: `url(${tool.logo})`,
+                      maskImage: `url(${tool.logo})`,
+                    }}
+                  />
+                )}
               </span>
               <span className="tool-label">{tool.label}</span>
             </span>
