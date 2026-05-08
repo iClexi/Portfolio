@@ -634,13 +634,13 @@ h1 {
 }
 
 .youtube-category-button {
-  display: flex;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
-  min-height: 42px;
+  min-height: 56px;
   width: 100%;
-  padding: 0 12px;
+  padding: 10px 12px;
   color: var(--muted);
   background: #171a22;
   border: 1px solid var(--line);
@@ -654,14 +654,33 @@ h1 {
   color: var(--text);
 }
 
-.youtube-category-button span {
+.youtube-category-badge {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(39, 224, 163, 0.12);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.youtube-category-copy {
+  display: grid;
+  gap: 3px;
+}
+
+.youtube-category-copy span {
   text-align: left;
   line-height: 1.25;
 }
 
-.youtube-category-button strong {
+.youtube-category-copy strong {
   color: var(--amber);
   font-size: 12px;
+  font-weight: 800;
 }
 
 .youtube-category-button.active {
@@ -699,7 +718,9 @@ h1 {
 
 .video-row {
   display: grid;
-  gap: 6px;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
   padding: 14px;
   background: #171a22;
   border: 1px solid var(--line);
@@ -718,7 +739,31 @@ h1 {
   line-height: 1.35;
 }
 
-.video-row strong {
+.video-row-icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: rgba(255, 78, 96, 0.15);
+  color: var(--red);
+  font-size: 10px;
+  line-height: 1;
+  margin-top: 3px;
+}
+
+.video-row-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.video-row-copy span {
+  color: var(--text);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.video-row-copy strong {
   color: var(--amber);
   font-size: 12px;
 }
@@ -798,26 +843,47 @@ h1 {
   align-items: center;
   justify-content: center;
 }
+
+.hero-logo-shell,
+.tool-logo-shell {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.hero-logo-shell {
+  width: 52px;
+  height: 52px;
+  padding: 6px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
 .hero-logo {
-  width: 46px;
-  height: 46px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
-  background: #0f1724;
-  padding: 6px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.03);
 }
 
 .tool-logo {
-  width: 20px;
-  height: 20px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  display: inline-block;
-  border-radius: 4px;
-  background: #0f1724;
-  padding: 3px;
+  display: block;
 }
+
+.tool-logo-shell {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(39, 224, 163, 0.12), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
 .tool-label {
   margin-left: 8px;
   font-weight: 700;

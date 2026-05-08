@@ -478,7 +478,9 @@ export default function Home() {
           </div>
           <div className="hero-orbit-logos" role="img" aria-label="Tecnologías">
             {heroOrbitTechs.map((tech) => (
-              <img key={tech.label} src={tech.logo} alt={tech.label + ' logo'} className="hero-logo" />
+              <span className="hero-logo-shell" key={tech.label}>
+                <img src={tech.logo} alt={tech.label + ' logo'} className="hero-logo" />
+              </span>
             ))}
           </div>
         </div>
@@ -608,8 +610,11 @@ export default function Home() {
                   className={`youtube-category-button ${selectedVideoCategory === item.value ? 'active' : ''}`}
                   onClick={() => setSelectedVideoCategory(item.value)}
                 >
-                  <span>{item.label}</span>
-                  <strong>{item.count}</strong>
+                  <span className="youtube-category-badge">{item.value === 'all' ? '✓' : item.label.slice(0, 2).toUpperCase()}</span>
+                  <span className="youtube-category-copy">
+                    <span>{item.label}</span>
+                    <strong>{item.count}</strong>
+                  </span>
                 </button>
               ))}
             </div>
@@ -629,8 +634,11 @@ export default function Home() {
                 <div className="video-list">
                   {videos.map((video) => (
                     <a className="video-row" href={`https://www.youtube.com/@iclexi2688/search?query=${encodeURIComponent(video[1])}`} target="_blank" rel="noreferrer" key={video[1]}>
-                      <span>{video[1]}</span>
-                      <strong>{video[2]} · {video[3]}</strong>
+                      <span className="video-row-icon">▶</span>
+                      <span className="video-row-copy">
+                        <span>{video[1]}</span>
+                        <strong>{video[2]} · {video[3]}</strong>
+                      </span>
                     </a>
                   ))}
                 </div>
@@ -648,7 +656,9 @@ export default function Home() {
         <div className="tool-cloud">
           {toolStack.map((tool) => (
             <span className="tool-pill animated-entry" key={tool.label}>
-              <img src={tool.logo} alt={tool.label + ' logo'} className="tool-logo" />
+              <span className="tool-logo-shell">
+                <img src={tool.logo} alt={tool.label + ' logo'} className="tool-logo" />
+              </span>
               <span className="tool-label">{tool.label}</span>
             </span>
           ))}
