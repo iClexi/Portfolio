@@ -1290,20 +1290,20 @@ h1 {
   }
 
   .hero-orbit-logos {
-    --orbit-radius: 124px;
+    --orbit-radius: 90px;
     animation-duration: 28s;
   }
 
   .hero-orbit-node {
-    width: 54px;
-    height: 54px;
+    width: 50px;
+    height: 50px;
   }
 
   .hero-logo-shell {
-    width: 54px;
-    height: 54px;
-    padding: 8px;
-    border-radius: 16px;
+    width: 50px;
+    height: 50px;
+    padding: 6px;
+    border-radius: 12px;
   }
 
   .hero-avatar {
@@ -1351,10 +1351,13 @@ img:not([src="/minecraft/server-rack.png"]) {
 @media (max-width: 500px) {
   .cert-grid,
   .project-grid,
-  .service-grid,
   .evidence-grid,
   .video-lab-grid {
     grid-template-columns: 1fr;
+  }
+
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .skill-grid,
@@ -1364,10 +1367,37 @@ img:not([src="/minecraft/server-rack.png"]) {
 
   .cert-card,
   .project-card,
-  .service-card,
   .evidence-card,
   .video-lab-card {
     min-height: auto;
+  }
+
+  .service-card {
+    min-height: auto;
+    gap: 8px;
+  }
+
+  .service-card h3 {
+    font-size: 18px;
+  }
+
+  .service-card p {
+    font-size: 14px;
+  }
+
+  .hero-orbit-logos {
+    --orbit-radius: 70px;
+  }
+
+  .hero-orbit-node {
+    width: 48px;
+    height: 48px;
+  }
+
+  .hero-logo-shell {
+    width: 48px;
+    height: 48px;
+    padding: 5px;
   }
 
   .section-band {
