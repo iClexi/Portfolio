@@ -493,26 +493,36 @@ export default function Home() {
             <img src="/logos/portrait.svg" alt="Avatar" className="hero-avatar" />
           </div>
           <div className="hero-orbit-logos" role="img" aria-label="Tecnologías">
-            {heroOrbitTechs.map((tech) => (
-              <div
-                className="hero-logo-shell"
-                key={tech.label}
-              >
-                {tech.render === 'image' ? (
-                  <img src={tech.logo} alt={tech.label + ' logo'} className="hero-logo" />
-                ) : (
-                  <span
-                    className="hero-logo-mark"
-                    aria-hidden="true"
-                    style={{
-                      backgroundColor: tech.color,
-                      WebkitMaskImage: `url(${tech.logo})`,
-                      maskImage: `url(${tech.logo})`,
-                    }}
-                  />
-                )}
-              </div>
-            ))}
+            {heroOrbitTechs.map((tech, index) => {
+              const angle = (index / heroOrbitTechs.length) * 360;
+              return (
+                <div
+                  className="hero-orbit-node"
+                  key={tech.label}
+                  style={{
+                    transform: `rotate(${angle}deg) translateY(calc(-1 * var(--orbit-radius))) rotate(-${angle}deg)`,
+                  }}
+                >
+                  <div
+                    className="hero-logo-shell"
+                  >
+                    {tech.render === 'image' ? (
+                      <img src={tech.logo} alt={tech.label + ' logo'} className="hero-logo" />
+                    ) : (
+                      <span
+                        className="hero-logo-mark"
+                        aria-hidden="true"
+                        style={{
+                          backgroundColor: tech.color,
+                          WebkitMaskImage: `url(${tech.logo})`,
+                          maskImage: `url(${tech.logo})`,
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

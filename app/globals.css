@@ -227,7 +227,7 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: linear-gradient(145deg, rgba(21, 24, 32, 0.92), rgba(29, 33, 43, 0.72));
-  overflow: hidden;
+  overflow: visible;
 }
 
 .hero-orbit::before,
@@ -854,6 +854,8 @@ h1 {
   place-items: center;
   width: 72px;
   height: 72px;
+  margin-left: -36px;
+  margin-top: -36px;
   transform-origin: center;
   will-change: transform;
 }
@@ -1297,6 +1299,8 @@ h1 {
   .hero-orbit-node {
     width: 50px;
     height: 50px;
+    margin-left: -25px;
+    margin-top: -25px;
   }
 
   .hero-logo-shell {
@@ -1392,6 +1396,8 @@ img:not([src="/minecraft/server-rack.png"]) {
   .hero-orbit-node {
     width: 40px;
     height: 40px;
+    margin-left: -20px;
+    margin-top: -20px;
   }
 
   .hero-logo-shell {
