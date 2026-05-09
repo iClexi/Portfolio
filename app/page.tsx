@@ -716,10 +716,7 @@ export default function Home() {
 
       <section id="minecraft" className="section-band minecraft">
         <div className="minecraft-visual animated-entry">
-          <img src="/logos/minecraft-server.svg" alt="Ilustración del servidor Minecraft" className="minecraft-art" />
-          <div className="minecraft-sky">
-            <span>mc.iclexi.tech</span>
-          </div>
+          <img src="/minecraft/minecraft.png" alt="Servidor Minecraft" className="minecraft-art" />
         </div>
         <div className="minecraft-copy animated-entry">
           <p className="eyebrow">Servidor Minecraft</p>
