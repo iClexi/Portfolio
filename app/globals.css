@@ -438,18 +438,18 @@ h1 {
   display: grid;
   align-content: stretch;
   gap: 14px;
-  min-height: 280px;
+  min-height: 180px;
   transition: transform 180ms ease, border-color 180ms ease;
   overflow: hidden;
 }
 
 .service-card h3 {
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1.3;
 }
 
 .service-card p {
-  font-size: 19px;
+  font-size: 22px;
   line-height: 1.6;
 }
 
@@ -479,7 +479,7 @@ h1 {
 }
 
 .service-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .service-card svg {
