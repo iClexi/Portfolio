@@ -492,7 +492,7 @@ export default function Home() {
             <a className="secondary-link" href="https://github.com/iClexi" target="_blank" rel="noreferrer"><GitBranch size={18} />GitHub</a>
           </div>
         </div>
-        <div className="hero-orbit animated-entry" aria-hidden="true">
+        <div className="hero-orbit" aria-hidden="true">
           <div className="orbit-core">
             <img src="/logos/portrait.svg" alt="Avatar" className="hero-avatar" />
           </div>
