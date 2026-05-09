@@ -88,6 +88,10 @@ const heroOrbitTechs: LogoItem[] = [
   { label: 'Docker', logo: '/logos/docker.svg', color: '#2496ED' },
   { label: 'Wazuh', logo: '/logos/wazuh.ico', color: '#00A3E0', render: 'image' },
   { label: 'PostgreSQL', logo: '/logos/postgresql.svg', color: '#336791' },
+  { label: 'Linux', logo: '/logos/linux.svg', color: '#FCC624' },
+  { label: 'Ubuntu', logo: '/logos/ubuntu.svg', color: '#E95420' },
+  { label: 'Nextcloud', logo: '/logos/nextcloud.svg', color: '#0082C9' },
+  { label: 'TrueNAS', logo: '/logos/truenas.svg', color: '#0095D5' },
 ];
 
 const toolStack: LogoItem[] = [
