@@ -86,7 +86,7 @@ const serviceLinks: ServiceLink[] = [
 const heroOrbitTechs: LogoItem[] = [
   { label: 'Proxmox', logo: '/logos/proxmox.svg', color: '#E57000' },
   { label: 'Docker', logo: '/logos/docker.svg', color: '#2496ED' },
-  { label: 'Wazuh', logo: '/logos/wazuh.ico', color: '#00A3E0', render: 'image' },
+  { label: 'GitHub', logo: '/logos/github.svg', color: '#181717' },
   { label: 'PostgreSQL', logo: '/logos/postgresql.svg', color: '#336791' },
   { label: 'Linux', logo: '/logos/linux.svg', color: '#FCC624' },
   { label: 'Ubuntu', logo: '/logos/ubuntu.svg', color: '#E95420' },
@@ -428,14 +428,7 @@ export default function Home() {
         duration: 520,
         easing: 'outCubic',
       });
-      module.animate?.('.hero-orbit span', {
-        translateY: [-4, 4],
-        direction: 'alternate',
-        easing: 'inOutSine',
-        duration: 2200,
-        loop: true,
-        delay: module.stagger ? module.stagger(130) : 0,
-      });
+      // No animation on logos - only orbital motion
       module.animate?.('.tool-pill', {
         translateY: [0, -3],
         direction: 'alternate',
