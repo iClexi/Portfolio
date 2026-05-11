@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { SmoothScroll } from '../components/ui/smooth-scroll';
 import { ScrollTopReset } from '../components/ui/scroll-top-reset';
 import { RevealOnScroll } from '../components/ui/reveal-on-scroll';
-import { GsapAnimations } from '../components/ui/gsap-animations';
+import { AdminButton } from '../components/ui/admin-button';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SmoothScroll />
         <ScrollTopReset />
         <RevealOnScroll />
-        <GsapAnimations />
+        <AdminButton />
         {children}
       </body>
     </html>
